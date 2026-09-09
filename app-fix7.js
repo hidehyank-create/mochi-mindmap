@@ -103,7 +103,7 @@ function _refineQuadIntersection(a,b,ta,tb){
   for(let k=0;k<8;k++){
     const pa=quadPoint(a,u),pb=quadPoint(b,v),fa={x:pa.x-pb.x,y:pa.y-pb.y},da=quadTangent(a,u),db=quadTangent(b,v),det=da.y*db.x-da.x*db.y;
     if(Math.abs(det)<1e-8)break;
-    const du=(fa.x*db.y-fa.y*db.x)/det,dv=(da.x*fa.y-da.y*fa.x)/det;
+    const du=(db.x*fa.y-fa.x*db.y)/det,dv=(da.x*fa.y-da.y*fa.x)/det;
     u=clamp(u-du,0,1);v=clamp(v-dv,0,1);
     if(Math.abs(du)+Math.abs(dv)<1e-7)break;
   }
@@ -112,7 +112,7 @@ function _refineQuadIntersection(a,b,ta,tb){
 linkCrossings=function(upper,lower){
   const seeds=[],N=56;let pa=quadPoint(upper,0);
   for(let i=1;i<=N;i++){const qa=quadPoint(upper,i/N);let pb=quadPoint(lower,0);for(let j=1;j<=N;j++){const qb=quadPoint(lower,j/N),h=segmentIntersection(pa,qa,pb,qb);if(h)seeds.push({ta:((i-1)+(Number.isFinite(h.t)?h.t:.5))/N,tb:((j-1)+(Number.isFinite(h.u)?h.u:.5))/N});pb=qb}pa=qa}
-  const out=[];for(const s of seeds){const r=_refineQuadIntersection(upper,lower,s.ta,s.tb);if(r.t<=.08||r.t>=.92||r.s<=.08||r.s>=.92||out.some(h=>dist(h.x,h.y,r.x,r.y)<7/view.scale))continue;const au=unit(...Object.values(quadTangent(upper,r.t))),bu=unit(...Object.values(quadTangent(lower,r.s))),sin=Math.abs(au.x*bu.y-au.y*bu.x);out.push({x:r.x,y:r.y,t:r.t,sin})}return out;
+  const out=[];for(const s of seeds){const r=_refineQuadIntersection(upper,lower,s.ta,s.tb);if(r.t<=.08||r.t>=.92||r.s<=.08||r.s>=.92||out.some(h=>dist(h.x,h.y,r.x,r.y)<7/view.scale))continue;const ta=quadTangent(upper,r.t),tb=quadTangent(lower,r.s),au=unit(ta.x,ta.y),bu=unit(tb.x,tb.y),sin=Math.abs(au.x*bu.y-au.y*bu.x);out.push({x:r.x,y:r.y,t:r.t,sin})}return out;
 };
 
 // Symmetric root-R overlay: keep both shoulders visually identical even after link editing.
