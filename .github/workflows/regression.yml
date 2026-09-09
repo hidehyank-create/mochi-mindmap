@@ -1,0 +1,32 @@
+name: Mochi regression
+on:
+  push:
+    branches:
+      - main
+      - 'work/**'
+  workflow_dispatch:
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: JavaScript syntax
+        run: |
+          for f in app-*.js; do node --check "$f"; done
+      - name: Pure logic regression
+        run: node tests/fix10-logic.test.mjs
+      - name: Browser regression
+        run: |
+          set -euo pipefail
+          CHROME="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          test -n "$CHROME"
+          python3 -m http.server 8765 --bind 127.0.0.1 >/tmp/mochi-http.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID || true' EXIT
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8765/regression.html >/dev/null; then break; fi
+            sleep 0.2
+          done
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=5000 --dump-dom 'http://127.0.0.1:8765/regression.html?ci=1' > /tmp/mochi-regression-dom.html
+          grep 'data-regression-status="PASS"' /tmp/mochi-regression-dom.html
+          grep '回帰テスト PASS (10/10)' /tmp/mochi-regression-dom.html
