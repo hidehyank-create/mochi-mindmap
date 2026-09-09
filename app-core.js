@@ -1,7 +1,7 @@
 "use strict";
 const svg=document.getElementById("stage"),world=document.getElementById("world"),shadowLayer=document.getElementById("shadowLayer"),linksLayer=document.getElementById("linksLayer"),mergeLayer=document.getElementById("mergeLayer"),liveLayer=document.getElementById("liveLayer"),nodesLayer=document.getElementById("nodesLayer"),overlapLayer=document.getElementById("overlapLayer"),hiddenLayer=document.getElementById("hiddenLayer"),inkLayer=document.getElementById("inkLayer"),uiLayer=document.getElementById("uiLayer"),status=document.getElementById("status"),fitBtn=document.getElementById("fitBtn"),selectBtn=document.getElementById("selectBtn"),eraseBtn=document.getElementById("eraseBtn"),newBtn=document.getElementById("newBtn"),undoBtn=document.getElementById("undoBtn"),redoBtn=document.getElementById("redoBtn"),contextMenu=document.getElementById("contextMenu"),ctxSelect=document.getElementById("ctxSelect"),ctxNew=document.getElementById("ctxNew"),ctxDelete=document.getElementById("ctxDelete"),confirmDelete=document.getElementById("confirmDelete"),deleteMsg=document.getElementById("deleteMsg"),cancelDelete=document.getElementById("cancelDelete"),doDelete=document.getElementById("doDelete");
 const DEFAULT_R=82,MIN_R=34,MAX_R=1000000,LINK_BASE_WIDTH=30,MIN_NEW_R=34,MAX_NEW_R=1000000,EDIT_HOLD_MS=400,CONTACT_HOLD_MS=1000,MOVE_THRESHOLD=9,PEN_MOVE_THRESHOLD=7;
-const LIVE_START_WIDTH=46,LIVE_END_WIDTH=28,ATTACH_OVERLAP=8,DETACH_SHIFT=28,CONTACT_EPS=1.5,PIVOT_SNAP=20;
+const LIVE_START_WIDTH=46,LIVE_END_WIDTH=28,ATTACH_OVERLAP=8,DETACH_SHIFT=28,CONTACT_EPS=1.5,PIVOT_SNAP=5;
 const ACQUIRE_ANGLE=3*Math.PI/180,RELEASE_ANGLE=5*Math.PI/180,ACQUIRE_SURFACE=120,RELEASE_SURFACE=145,RECEIVER_MAX_EXTEND=34,VIEW_MIN=.22,VIEW_MAX=3.5;
 let zSeq=2,createSeq=2,attachSeq=0;
 const nodes=[{id:"a",x:315,y:350,r:DEFAULT_R,label:"アイデアA",z:1,created:1},{id:"b",x:685,y:350,r:DEFAULT_R,label:"アイデアB",z:2,created:2}],links=[],attachments=[],crossPairs=new Set();
@@ -22,7 +22,7 @@ function updateHistoryButtons(){undoBtn.disabled=historyPast.length<=1;redoBtn.d
 function commitHistory(){const s=snapshotState(),k=snapshotKey(s);if(!historyPast.length||snapshotKey(historyPast.at(-1))!==k){historyPast.push(s);if(historyPast.length>80)historyPast.shift();historyFuture.length=0}updateHistoryButtons()}
 function undo(){if(historyPast.length<=1)return;historyFuture.push(historyPast.pop());restoreState(historyPast.at(-1));updateHistoryButtons();statusText("戻しました")}
 function redo(){if(!historyFuture.length)return;const s=historyFuture.pop();historyPast.push(s);restoreState(s);updateHistoryButtons();statusText("進めました")}
-function statusText(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD 0909-FIX4<br>${t}`}
+function statusText(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD 0909-FIX5<br>${t}`}
 function clientToSvg(evt){const p=svg.createSVGPoint();p.x=evt.clientX;p.y=evt.clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
 function svgToWorldPoint(p){return{x:(p.x-view.x)/view.scale,y:(p.y-view.y)/view.scale}}
 function eventToWorld(evt){return svgToWorldPoint(clientToSvg(evt))}
