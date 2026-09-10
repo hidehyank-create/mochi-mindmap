@@ -15,7 +15,6 @@ function f11InitialBypass(ids,starts){
 }
 function f11StartState(ids){const starts={};for(const id of ids){const q=nodeById(id);if(q)starts[id]={x:q.x,y:q.y}}return starts}
 
-// Persistent crossPairs is retired. Old history entries are normalized on render/restore.
 adoptExistingOverlapsAsCross=function(){crossPairs.clear()};
 cleanupCrossPairs=function(){crossPairs.clear()};
 enforceCrossInvariant=function(){crossPairs.clear()};
@@ -47,10 +46,10 @@ function f11CollisionAlongMove(g,dx,dy){
   for(const id of g.compIds){const s=g.starts[id],n=nodeById(id);if(!s||!n)continue;for(const o of nodes){
     if(set.has(o.id)||skip.has(pairKey(id,o.id)))continue;
     const R=n.r+o.r,p0x=s.x-o.x,p0y=s.y-o.y,a=dx*dx+dy*dy;if(a<1e-8)continue;
-    const c=p0x*p0x+p0y*p0y-R*R;if(c<=0){continue}
+    const c=p0x*p0x+p0y*p0y-R*R;if(c<=0)continue;
     const b=2*(p0x*dx+p0y*dy),disc=b*b-4*a*c;if(disc<0)continue;
     const sq=Math.sqrt(disc),t1=(-b-sq)/(2*a),t2=(-b+sq)/(2*a),t=t1>=0&&t1<=1?t1:(t2>=0&&t2<=1?t2:null);
-    if(t!==null&&t<bestT){bestT=t;bestPair={movedId:id,otherId:o.id}}
+    if(t!==null&&t<=bestT){bestT=t;bestPair={movedId:id,otherId:o.id}}
   }}
   return{t:bestT,pair:bestPair};
 }
@@ -126,7 +125,6 @@ penEnd=function(evt){
   return f11PenEndPrevious(evt);
 };
 
-// Keep the hidden geometry visible while a circle is moving over other circles.
 renderMotionNow=function(){
   shadowLayer.style.display="none";overlapLayer.style.display="none";hiddenLayer.style.display="";
   renderLinks(true);renderNodesFast();renderHidden();renderUI();
@@ -135,10 +133,7 @@ renderMotionNow=function(){
 const f11RenderUIPrevious=renderUI;
 renderUI=function(){f11RenderUIPrevious();for(const t of uiLayer.querySelectorAll(".contact-hint"))t.textContent="離す＝くっつく　押し込む＝重ねる"};
 
-window.__mochiFix11Test={
-  initialBypass:f11InitialBypass,collisionAlongMove:f11CollisionAlongMove,rawPenetration:f11RawPenetration,
-  attachmentDegree:f11AttachmentDegree,componentDegree:f11ComponentDegree
-};
+window.__mochiFix11Test={initialBypass:f11InitialBypass,collisionAlongMove:f11CollisionAlongMove,rawPenetration:f11RawPenetration,attachmentDegree:f11AttachmentDegree,componentDegree:f11ComponentDegree};
 
 statusText=function(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD 0911-FIX11<br>${t}`};
 statusText("待機中");
