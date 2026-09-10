@@ -8,51 +8,32 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>餅マップ v0.9.4</title>
-<link rel="stylesheet" href="style.css?v=0910-fix10">
+<link rel="stylesheet" href="style.css?v=0911-fix11">
 </head>
 <body>
 <div id="wrap">
 <svg id="stage" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
   <defs>
-    <filter id="outerShadow" x="-30%" y="-30%" width="160%" height="170%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/>
-      <feOffset in="blur" dx="0" dy="5" result="off"/>
-      <feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.20"/></feComponentTransfer>
-      <feMerge><feMergeNode in="fade"/></feMerge>
-    </filter>
-    <filter id="overlapShadow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur"/>
-      <feOffset in="blur" dx="0" dy="2" result="off"/>
-      <feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.22"/></feComponentTransfer>
-      <feMerge><feMergeNode in="fade"/></feMerge>
-    </filter>
+    <filter id="outerShadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/><feOffset in="blur" dx="0" dy="5" result="off"/><feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.20"/></feComponentTransfer><feMerge><feMergeNode in="fade"/></feMerge></filter>
+    <filter id="overlapShadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur"/><feOffset in="blur" dx="0" dy="2" result="off"/><feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.22"/></feComponentTransfer><feMerge><feMergeNode in="fade"/></feMerge></filter>
   </defs>
-  <g id="world">
-    <g id="shadowLayer" filter="url(#outerShadow)"></g>
-    <g id="linksLayer"></g>
-    <g id="mergeLayer"></g>
-    <g id="liveLayer"></g>
-    <g id="overlapLayer"></g>
-    <g id="nodesLayer"></g>
-    <g id="hiddenLayer"></g>
-    <g id="inkLayer"></g>
-    <g id="uiLayer"></g>
-  </g>
+  <g id="world"><g id="shadowLayer" filter="url(#outerShadow)"></g><g id="linksLayer"></g><g id="mergeLayer"></g><g id="liveLayer"></g><g id="overlapLayer"></g><g id="nodesLayer"></g><g id="hiddenLayer"></g><g id="inkLayer"></g><g id="uiLayer"></g></g>
 </svg>
-<div id="status">餅マップ v0.9.4<br>BUILD 0910-FIX10<br>待機中</div>
+<div id="status">餅マップ v0.9.4<br>BUILD 0911-FIX11<br>待機中</div>
 <div id="controls"><button id="undoBtn" disabled>↶ 戻る</button><button id="redoBtn" disabled>↷ 進む</button><button id="selectBtn">選択</button><button id="eraseBtn">消しゴム</button><button id="newBtn">新規丸</button><button id="linkBtn">紐付け（仮）</button><button id="fitBtn">全体表示</button></div>
 <div id="contextMenu"><button id="ctxSelect">選択</button><button id="ctxNew">新規丸</button><button id="ctxDelete">削除</button><button id="ctxLink">紐付け（仮）</button><button id="ctxDetach">分離</button></div>
 <div id="confirmDelete"><div class="msg" id="deleteMsg"></div><div class="actions"><button id="cancelDelete">キャンセル</button><button id="doDelete" class="danger">削除</button></div></div>
-<div id="help">Pencil：丸移動／外縁から外向き＝紐伸ばし　接着した端丸＝相手を軸に回転　1.0秒押さえる＝交差　丸縁0.4秒＝サイズ編集　×＝削除<br>指1本：オブジェクト上＝操作／背景＝パン　指2本＝ズーム　指2本タップ＝メニュー　／　PC：右クリック＝その位置・対象へ即実行　分離＝埋没丸を回収　紐付け（仮）＝始点からポインタ追従</div>
+<div id="help">Pencil：丸移動／外縁から外向き＝紐伸ばし　丸同士は接触で離す＝接着・そのまま押し込む＝ただ重なる　丸縁0.4秒＝サイズ編集　×＝削除<br>指1本：オブジェクト上＝操作／背景＝パン　指2本＝ズーム　指2本タップ＝メニュー　／　PC：右クリック＝その位置・対象へ即実行　分離＝埋没丸を回収　紐付け（仮）＝始点からポインタ追従</div>
 </div>
-<script src="app-core.js?v=0910-fix10"></script>
-<script src="app-render.js?v=0910-fix10"></script>
-<script src="app-gesture.js?v=0910-fix10"></script>
-<script src="app-ui.js?v=0910-fix10"></script>
-<script src="app-fix6.js?v=0910-fix10"></script>
-<script src="app-fix7.js?v=0910-fix10"></script>
-<script src="app-fix8.js?v=0910-fix10"></script>
-<script src="app-fix9.js?v=0910-fix10"></script>
-<script src="app-fix10.js?v=0910-fix10"></script>
+<script src="app-core.js?v=0911-fix11"></script>
+<script src="app-render.js?v=0911-fix11"></script>
+<script src="app-gesture.js?v=0911-fix11"></script>
+<script src="app-ui.js?v=0911-fix11"></script>
+<script src="app-fix6.js?v=0911-fix11"></script>
+<script src="app-fix7.js?v=0911-fix11"></script>
+<script src="app-fix8.js?v=0911-fix11"></script>
+<script src="app-fix9.js?v=0911-fix11"></script>
+<script src="app-fix10.js?v=0911-fix11"></script>
+<script src="app-fix11.js?v=0911-fix11"></script>
 </body>
 </html>
