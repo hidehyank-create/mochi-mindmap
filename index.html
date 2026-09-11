@@ -8,7 +8,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>餅マップ v0.9.4</title>
-<link rel="stylesheet" href="style.css?v=0911-fix13">
+<link rel="stylesheet" href="style.css?v=0911-fix14">
 </head>
 <body>
 <div id="wrap">
@@ -19,33 +19,34 @@
   </defs>
   <g id="world"><g id="shadowLayer" filter="url(#outerShadow)"></g><g id="linksLayer"></g><g id="mergeLayer"></g><g id="liveLayer"></g><g id="overlapLayer"></g><g id="nodesLayer"></g><g id="hiddenLayer"></g><g id="inkLayer"></g><g id="uiLayer"></g></g>
 </svg>
-<div id="status">餅マップ v0.9.4<br>BUILD 0911-FIX13<br>待機中</div>
+<div id="status">餅マップ v0.9.4<br>BUILD 0911-FIX14<br>待機中</div>
 <div id="controls" aria-label="操作ツールバー">
   <button id="undoBtn" disabled aria-label="戻る" title="戻る"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5"/><path d="M5 12h7a6 6 0 0 1 6 6"/></svg></button>
   <button id="redoBtn" disabled aria-label="進む" title="進む"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 7 5 5-5 5"/><path d="M19 12h-7a6 6 0 0 0-6 6"/></svg></button>
   <button id="fitBtn" aria-label="全体表示" title="全体表示"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M4 16v4h4M20 16v4h-4"/></svg></button>
-  <button id="selectBtn" aria-label="選択" title="選択"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l5.4 14 2.1-5.1L19 10.8 6 4Z"/></svg></button>
-  <button id="newBtn" aria-label="新規丸" title="新規丸"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="12" r="6"/><path d="M18 6v6M15 9h6"/></svg></button>
-  <button id="linkBtn" aria-label="紐付け" title="紐付け"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12c3-4 6-4 9 0"/></svg></button>
-  <button id="detachBtn" aria-label="分離" title="分離"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="m10 9-3 3 3 3M14 9l3 3-3 3"/></svg></button>
+  <button id="selectBtn" aria-label="選択" title="選択"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6c2-2 10-2 13 1 2 2 1 7-2 9-3 2-9 2-11-1-2-2-2-7 0-9Z"/><path d="M17 17l3 3"/></svg></button>
+  <button id="newBtn" aria-label="新規丸" title="新規丸"><svg class="tool-icon custom-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 20c-4-2-6-7-4-12 2-5 8-7 13-4 5 3 6 10 2 14-2 2-5 3-8 2"/></svg></button>
+  <button id="linkBtn" aria-label="紐付け" title="紐付け"><svg class="tool-icon custom-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7c3 0 4 1 5 3 .5 1 .7 1.5 1.8 1.5h6.4c1.1 0 1.3-.5 1.8-1.5 1-2 2-3 5-3"/><path d="M2 17c3 0 4-1 5-3 .5-1 .7-1.5 1.8-1.5h6.4c1.1 0 1.3.5 1.8 1.5 1 2 2 3 5 3"/></svg></button>
+  <button id="detachBtn" aria-label="分離" title="分離"><svg class="tool-icon custom-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M1 6c4 0 5 2 6 5M1 18c4 0 5-2 6-5M23 6c-4 0-5 2-6 5M23 18c-4 0-5-2-6-5"/><path d="M12 7v3M12 14v3M7 12h3M14 12h3M8.5 8.5l2.1 2.1M13.4 13.4l2.1 2.1M15.5 8.5l-2.1 2.1M10.6 13.4l-2.1 2.1"/></svg></button>
   <button id="eraseBtn" aria-label="削除" title="削除"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 17-3-3 8-8 5 5-6 6H8Z"/><path d="M12 17h7"/></svg></button>
 </div>
 <div id="contextMenu"><button id="ctxSelect">選択</button><button id="ctxNew">新規丸</button><button id="ctxDelete">削除</button><button id="ctxLink">紐付け（仮）</button><button id="ctxDetach">分離</button></div>
 <div id="confirmDelete"><div class="msg" id="deleteMsg"></div><div class="actions"><button id="cancelDelete">キャンセル</button><button id="doDelete" class="danger">削除</button></div></div>
 <div id="help">Pencil：丸移動／外縁から紐伸ばし／迎え半円が触れたら離して接着／押し込むと重なり　選択：投げ縄で中心を囲む</div>
 </div>
-<script src="app-core.js?v=0911-fix13"></script>
-<script src="app-render.js?v=0911-fix13"></script>
-<script src="app-gesture.js?v=0911-fix13"></script>
-<script src="app-ui.js?v=0911-fix13"></script>
-<script src="app-fix6.js?v=0911-fix13"></script>
-<script src="app-fix7.js?v=0911-fix13"></script>
-<script src="app-fix8.js?v=0911-fix13"></script>
-<script src="app-fix9.js?v=0911-fix13"></script>
-<script src="app-fix10.js?v=0911-fix13"></script>
-<script src="app-fix11.js?v=0911-fix13"></script>
-<script src="app-fix12.js?v=0911-fix13"></script>
-<script src="app-fix13.js?v=0911-fix13"></script>
-<script src="app-fix13b.js?v=0911-fix13"></script>
+<script src="app-core.js?v=0911-fix14"></script>
+<script src="app-render.js?v=0911-fix14"></script>
+<script src="app-gesture.js?v=0911-fix14"></script>
+<script src="app-ui.js?v=0911-fix14"></script>
+<script src="app-fix6.js?v=0911-fix14"></script>
+<script src="app-fix7.js?v=0911-fix14"></script>
+<script src="app-fix8.js?v=0911-fix14"></script>
+<script src="app-fix9.js?v=0911-fix14"></script>
+<script src="app-fix10.js?v=0911-fix14"></script>
+<script src="app-fix11.js?v=0911-fix14"></script>
+<script src="app-fix12.js?v=0911-fix14"></script>
+<script src="app-fix13.js?v=0911-fix14"></script>
+<script src="app-fix13b.js?v=0911-fix14"></script>
+<script src="app-fix14.js?v=0911-fix14"></script>
 </body>
 </html>
