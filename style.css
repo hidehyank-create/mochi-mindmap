@@ -5,6 +5,7 @@ svg{width:100%;height:100%;display:block;touch-action:none}
 .node,.merge-body,.link-body,.live-tip{fill:#f0c867;stroke:#f0c867}
 .node{stroke:none}
 .merge-body,.link-body{fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
+.merge-blob{fill:#f0c867;stroke:none;pointer-events:none}
 .rim{fill:none;stroke:rgba(45,45,45,.07);stroke-width:1.1;stroke-dasharray:4 8;pointer-events:none}
 .label{fill:#303030;font-size:20px;font-weight:700;text-anchor:middle;dominant-baseline:middle;pointer-events:none}
 .hidden-outline{fill:none;stroke:#897552;stroke-width:3;stroke-dasharray:9 8;opacity:.9;pointer-events:none}
@@ -18,16 +19,20 @@ svg{width:100%;height:100%;display:block;touch-action:none}
 .contact-hint{fill:#4f493e;font-size:12px;font-weight:700;text-anchor:middle;dominant-baseline:middle;pointer-events:none}
 @keyframes pulse{from{opacity:.45}to{opacity:1}}
 #status{position:fixed;top:calc(12px + env(safe-area-inset-top));left:12px;z-index:10;background:rgba(255,255,255,.92);padding:8px 11px;border-radius:12px;font-size:12px;line-height:1.4;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 3px 14px rgba(0,0,0,.08);pointer-events:none}
-#controls{position:fixed!important;right:14px!important;top:auto!important;bottom:calc(86px + env(safe-area-inset-bottom))!important;z-index:9999!important;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;pointer-events:auto;max-width:calc(100vw - 28px)}
+#controls{position:fixed!important;left:50%!important;right:auto!important;top:calc(10px + env(safe-area-inset-top))!important;bottom:auto!important;transform:translateX(-50%);z-index:9999!important;display:flex;flex-wrap:nowrap;align-items:center;gap:3px;max-width:calc(100vw - 28px);overflow-x:auto;overflow-y:hidden;padding:5px;background:rgba(255,255,255,.90);border:1px solid rgba(70,60,45,.08);border-radius:16px;box-shadow:0 4px 18px rgba(0,0,0,.10);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);pointer-events:auto;scrollbar-width:none}
+#controls::-webkit-scrollbar{display:none}
 button{touch-action:manipulation;border:0;border-radius:12px;padding:9px 12px;background:rgba(255,255,255,.96);box-shadow:0 3px 14px rgba(0,0,0,.10);font-weight:700;font-size:13px;color:#333}
-#fitBtn{min-width:76px}
+#controls button{flex:0 0 44px;width:44px;height:44px;min-width:44px;padding:0;display:grid;place-items:center;background:transparent;box-shadow:none;border-radius:11px;color:#4c473f}
+#controls button:active{transform:translateY(1px);background:rgba(111,101,85,.10)}
 #controls button.active{background:#6f6555;color:#fff}
-#controls button:disabled{opacity:.38}
+#controls button:disabled{opacity:.30}
+.tool-icon{width:23px;height:23px;display:block;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}
 .selection-ring{fill:none;stroke:#6f6555;stroke-width:2.5;stroke-dasharray:7 6;pointer-events:none}
 .link-selection{fill:none;stroke:#6f6555;stroke-width:3;stroke-dasharray:7 6;pointer-events:none}
-#confirmDelete{display:none;position:fixed;left:50%;bottom:calc(82px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:20;background:rgba(255,255,255,.96);border-radius:16px;padding:12px;box-shadow:0 7px 24px rgba(0,0,0,.16);min-width:260px;text-align:center}
+#confirmDelete{display:none;position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:20;background:rgba(255,255,255,.96);border-radius:16px;padding:12px;box-shadow:0 7px 24px rgba(0,0,0,.16);min-width:260px;text-align:center}
 #confirmDelete .msg{font-size:13px;margin-bottom:10px}#confirmDelete .actions{display:flex;gap:8px;justify-content:center}#confirmDelete .danger{background:#b84a3b;color:#fff}
 #contextMenu{display:none;position:fixed;z-index:10050;min-width:150px;padding:7px;background:rgba(255,255,255,.98);border-radius:12px;box-shadow:0 8px 28px rgba(0,0,0,.18)}
 #contextMenu button{display:block;width:100%;text-align:left;box-shadow:none;background:transparent;padding:9px 10px}
 #contextMenu button:hover{background:rgba(111,101,85,.10)}
-#help{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:8;background:rgba(255,255,255,.88);border-radius:14px;padding:10px 13px;font-size:13px;line-height:1.45;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);box-shadow:0 3px 16px rgba(0,0,0,.08);pointer-events:none}
+#help{display:none!important}
+@media(max-width:680px){#status{font-size:11px;padding:7px 9px}#controls{left:auto!important;right:10px!important;transform:none;max-width:calc(100vw - 20px)}}
