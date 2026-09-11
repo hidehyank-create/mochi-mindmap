@@ -37,7 +37,7 @@ function f12RenderContactPreview(aId,bId){
   const a=nodeById(aId),b=nodeById(bId);f12ClearContactPreview();if(!a||!b)return null;
   const m=f12ContactMetrics(a,b);if(!m.visible)return m;
   const g=sEl("g",{id:"f12ContactPreview","data-ready":m.touch?"1":"0"});
-  g.appendChild(f12Bud(a,b,m.tipA,m,"a"),f12Bud(b,a,m.tipB,m,"b"));liveLayer.appendChild(g);return m;
+  g.append(f12Bud(a,b,m.tipA,m,"a"),f12Bud(b,a,m.tipB,m,"b"));liveLayer.appendChild(g);return m;
 }
 function f12PairGap(a,b){return dist(a.x,a.y,b.x,b.y)-a.r-b.r}
 function f12UpdateBypass(g){
@@ -54,7 +54,6 @@ function f12BestApproach(g){
   return best;
 }
 
-// Free movement first. The preview is only a temporary candidate; it never stores attachment state.
 updateMoveGesture=function(g,p){
   const last=g.points.at(-1);if(!last||dist(last.x,last.y,p.x,p.y)>=2/view.scale)g.points.push(p);
   const dx=p.x-g.start.x,dy=p.y-g.start.y;setMovePositions(g,dx,dy,1);f12UpdateBypass(g);
@@ -135,8 +134,6 @@ function f12CubicPoint(c,t){const u=1-t;return{x:u*u*u*c.p0.x+3*u*u*t*c.c1.x+3*u
 function f12ClipCurveToCover(c,cover){let d="",drawing=false;for(let i=0;i<=32;i++){const p=f12CubicPoint(c,i/32),inside=dist(p.x,p.y,cover.x,cover.y)<=cover.r+3;if(inside){d+=(drawing?` L ${p.x} ${p.y}`:`M ${p.x} ${p.y}`);drawing=true}else drawing=false}return d.trim()}
 function f12HiddenRootEdges(l,cover){const out=[];for(const fromA of[true,false]){const endpoint=nodeById(fromA?l.a:l.b);if(!endpoint||sameComponent(cover.id,endpoint.id))continue;for(const c of f12RootSideCurves(l,fromA)){const d=f12ClipCurveToCover(c,cover);if(d)out.push(d)}}return out}
 
-// Circle/circle overlap is temporary placement, so do not draw hidden circle outlines.
-// Only unrelated hoses hidden by a circle get dashed outer edges and dashed root-R shoulders.
 renderHidden=function(){
   hiddenLayer.replaceChildren();const arr=sortedNodes();for(const cover of arr){for(const l of links){
     if(l.a===cover.id||l.b===cover.id)continue;
@@ -148,7 +145,6 @@ renderHidden=function(){
 
 renderMotionNow=function(){shadowLayer.style.display="none";overlapLayer.style.display="none";hiddenLayer.style.display="";renderLinks(true);renderNodesFast();renderHidden();renderUI()};
 
-// Toolbar: keep current actions, add one-shot Detach, but make the visible bar icon-only.
 function f12ToolButtons(){return[selectBtn,eraseBtn,newBtn,document.getElementById("linkBtn"),detachBtn]}
 clearOneShotTool=function(){pcTool=null;for(const b of f12ToolButtons())b?.classList.remove("active")};
 setPcTool=function(tool,force=false){
