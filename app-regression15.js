@@ -1,0 +1,32 @@
+"use strict";
+(function(){
+  const T=window.__mochiFix15Test||{},out=document.getElementById("regressionResults"),results=[];
+  function assert(x,m){if(!x)throw new Error(m)}
+  function test(name,fn){try{fn();results.push({name,ok:true})}catch(e){results.push({name,ok:false,error:e?.message||String(e)})}}
+  function N(id,x,y,r=70,z=1,label=id){return{id,x,y,r,label,z,created:z}}
+  function L(id,a,b,seq=1,z=null,control=null){const q={id,a,b,seq,control};if(z!=null)q.z=z;return q}
+  function A(id,a,b,seq=1){return{id,a,b,seq,newerId:a}}
+  function reset(ns=[],ls=[],as=[]){
+    if(renderRAF){cancelAnimationFrame(renderRAF);renderRAF=0}
+    gesture=null;selected=null;pcTool=null;nodes.splice(0,nodes.length,...ns.map(x=>({...x})));links.splice(0,links.length,...ls.map(x=>({...x,control:x.control?{...x.control}:null})));attachments.splice(0,attachments.length,...as.map(x=>({...x})));crossPairs.clear();zSeq=Math.max(2,...nodes.map(n=>n.z||0));view.x=0;view.y=0;view.scale=1;applyView();renderAll();
+  }
+
+  test("F15-01 迎え半円はFIX14より大きく棒なし",()=>{assert(typeof T.budMetrics==="function","budMetricsなし");reset([N("a",300,350,75,1),N("b",454,350,75,2)]);const m=T.budMetrics(nodeById("a"),nodeById("b"));assert(m.visible,"近距離で迎えなし");assert(m.half>=14,"迎え半円がまだ小さい");assert(m.half<=23,"迎え半円が大きすぎる");const d=T.budPath(nodeById("a"),nodeById("b"),m);assert(d&&d.includes("C"),"滑らかなRでない")});
+  test("F15-02 くびれRはFIX13とFIX14の中間",()=>{assert(typeof T.neckProfile==="function","neckProfileなし");reset([N("a",350,350,80,1),N("b",502,350,80,2)],[],[A("m","a","b")]);const p=T.neckProfile(attachments[0],0);assert(p.waist>=80*.57,"くびれが小さすぎる");assert(p.waist<=80*.66,"くびれが大きすぎる");assert(p.shoulder>p.waist,"肩R不正")});
+  test("F15-03 上丸の境界は重複区間だけ濃い黄色",()=>{assert(typeof T.decorateNodeOverlap==="function","境界装飾なし");reset([N("low",420,350,105,1),N("up",525,350,105,5)]);renderNodes();const g=nodesLayer.querySelector('[data-id="up"]');assert(g,"上丸なし");assert(!g.querySelector('[data-upper-rim="1"]'),"全周rimが残る");const arcs=g.querySelectorAll('[data-overlap-rim="node-node"]');assert(arcs.length>0,"重複区間境界なし");for(const p of arcs)assert((p.getAttribute("stroke")||"").toLowerCase()===T.boundaryColor.toLowerCase(),"濃い黄色でない")});
+  test("F15-04 丸移動でz順を変えない",()=>{reset([N("a",300,350,70,2),N("b",600,350,70,8)]);const z=nodeById("a").z,e={pointerId:1501,pointerType:"pen",preventDefault(){}};startMoveGesture(e,{x:300,y:350},nodeById("a"));updateMoveGesture(gesture,{x:340,y:350});assert(nodeById("a").z===z,"移動でzが変わった");gesture=null});
+  test("F15-05 紐交差境界はズーム非依存の実交差幅",()=>{assert(typeof T.linkLinkRanges==="function","精密交差判定なし");reset([N("a",180,350,55,1),N("b",820,350,55,1),N("c",500,100,55,1),N("d",500,600,55,1)],[L("h","a","b",1,5),L("v","c","d",2,2)]);const r1=T.linkLinkRanges(linkById("h"),linkById("v"));assert(r1.length===1,"交差範囲が1つでない");const len1=T.rangeArcLength(linkById("h"),r1[0][0],r1[0][1]);view.scale=.25;applyView();const r2=T.linkLinkRanges(linkById("h"),linkById("v"));const len2=T.rangeArcLength(linkById("h"),r2[0][0],r2[0][1]);assert(Math.abs(len1-len2)<.8,"ズームで境界長が変わる");assert(len1>=linkWidth(linkById("v"))*.85&&len1<=linkWidth(linkById("v"))*1.2,"下紐幅と境界長が合わない")});
+  test("F15-06 ポンデリング端接着候補は選び直しても安定",()=>{assert(typeof T.bestApproach==="function","bestApproachなし");reset([N("a",350,350,55,1),N("b",452,350,55,2),N("c",503,438,55,3),N("d",401,438,55,4)],[],[A("m1","a","b",1),A("m2","b","c",2),A("m3","c","d",3)]);const g={nodeId:"a",compIds:componentIds("a"),f13CandidateIds:["a"],bypassPairs:new Set(),blockAttachUntilClear:false};const x1=T.bestApproach(g);const x2=T.bestApproach({...g,bypassPairs:new Set()});assert(x1?.ringEnd&&x1.pair.otherId==="d","端同士候補にならない");assert(x2?.pair.otherId==="d","選び直しで候補消失")});
+  test("F15-07 連続モードは全ツール共通",()=>{assert(typeof T.setHeldTool==="function","held APIなし");for(const tool of["new","select","erase","link","detach"]){T.setHeldTool(tool);clearOneShotTool();assert(pcTool===tool,`${tool}が連続維持されない`);assert(T.getHeldTool()===tool,`${tool} heldなし`);T.setHeldTool(null)}});
+  test("F15-08 iPadでもツール名を常時表示",()=>{for(const id of["selectBtn","newBtn","linkBtn","detachBtn","eraseBtn"]){const b=document.getElementById(id);assert(b?.querySelector('.tool-label'),`${id}文字なし`);assert((b.querySelector('.tool-label').textContent||"").trim().length>0,`${id}文字空`)}});
+  test("F15-09 新規/紐付け/分離/消しゴムは専用SVG",()=>{assert(document.querySelector('#newBtn svg [data-icon-part="scribble"]'),"殴り書き丸なし");assert(document.querySelectorAll('#linkBtn svg [data-icon-part="fill"]').length>=1,"紐付け塗り形状なし");assert(document.querySelectorAll('#detachBtn svg [data-icon-part="fill"]').length>=1,"分離塗り形状なし");assert(document.querySelector('#eraseBtn svg [data-icon-part="paper"]'),"消しゴム紙塗りなし");assert(document.querySelector('#eraseBtn svg [data-icon-part="divider"]'),"消しゴム分割線なし")});
+  test("F15-10 紐長押しの操作点は紐上",()=>{reset([N("a",250,350),N("b",750,350)],[L("l","a","b",1,2,{x:500,y:230})]);const p=f13LinkEditPoint(linkById("l"));assert(f14PointLinkDistance(linkById("l"),p)<1.5,"操作点が紐上でない")});
+  test("F15-11 全体表示は欠けない最大倍率寄り",()=>{reset([N("a",190,180,60),N("b",810,520,60)]);fitAll();assert(view.scale>1.02,"全体表示がまだ小さすぎる");assert(view.scale<=2.7,"倍率過大")});
+  test("F15-12 分離距離は現状の小さな剥がしを維持",()=>{reset([N("a",350,350),N("b",482,350)],[],[A("m","a","b")]);const before=nodeById("a").x;assert(_separateBuriedNode(nodeById("a"),{x:416,y:350}),"分離失敗");assert(Math.abs(nodeById("a").x-before)<30,"分離が飛びすぎ")});
+  test("F15-13 丸内部の短い線では分離しない",()=>{reset([N("a",350,350),N("b",482,350)],[],[A("m","a","b")]);const pts=[{x:350,y:350},{x:360,y:352},{x:370,y:354}];assert(findMergeCut(pts)===null,"短い滑りで分離候補")});
+  test("F15-14 Z境界色は黒灰ではなく餅の濃い黄色",()=>{assert(T.boundaryColor&&T.boundaryColor.toLowerCase()!=="#7d6d52","旧灰色境界のまま")});
+  test("F15-15 紐×紐境界は実際の重複区間だけ描画",()=>{reset([N("a",180,350,55,1),N("b",820,350,55,1),N("c",500,100,55,1),N("d",500,600,55,1)],[L("h","a","b",1,6),L("v","c","d",2,2)]);T.boundaries();const gaps=overlapLayer.querySelectorAll('[data-z-boundary="link-link-gap"]');assert(gaps.length===1,"精密境界が1本でない");assert(!linksLayer.querySelector('[data-z-boundary="link-link"]'),"旧近似境界が残る")});
+
+  const ok=results.every(r=>r.ok);document.body.dataset.regression15Status=ok?"PASS":"FAIL";
+  const box=document.createElement("div");box.id="regression15";box.innerHTML=`<h3>FIX15 ${ok?"PASS":"FAIL"} (${results.filter(r=>r.ok).length}/${results.length})</h3>`+results.map(r=>`<div class="${r.ok?'pass':'fail'}">${r.ok?'✓':'✗'} ${r.name}${r.ok?'':` — ${r.error}`}</div>`).join("");out?.prepend(box);
+})();
