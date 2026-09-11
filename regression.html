@@ -3,52 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<title>餅マップ 回帰テスト FIX13</title>
-<link rel="stylesheet" href="style.css?v=0911-fix13">
-<style>
-#regressionPanel{position:fixed;top:70px;right:10px;z-index:20000;width:min(430px,46vw);max-height:calc(100vh - 80px);overflow:auto;background:rgba(255,255,255,.96);padding:12px;border-radius:14px;box-shadow:0 6px 26px rgba(0,0,0,.18);font-size:12px;line-height:1.35}
-#regressionPanel h2{margin:0 0 8px;font-size:16px}#regressionResults{display:grid;gap:3px;margin-bottom:10px}.pass{color:#234}.fail{color:#a22;font-weight:700}#scenarioButtons{display:flex;flex-wrap:wrap;gap:5px}#scenarioButtons button{font-size:11px;padding:6px 8px}
-@media(max-width:760px){#regressionPanel{width:calc(100vw - 20px);max-height:36vh;top:auto;bottom:10px}}
-</style>
+<title>餅マップ 回帰テスト FIX14</title>
+<link rel="stylesheet" href="style.css?v=0911-fix14">
+<style>#regressionPanel{position:fixed;top:70px;right:10px;z-index:20000;width:min(460px,48vw);max-height:calc(100vh - 80px);overflow:auto;background:rgba(255,255,255,.96);padding:12px;border-radius:14px;box-shadow:0 6px 26px rgba(0,0,0,.18);font-size:12px;line-height:1.35}#regressionPanel h2,#regressionPanel h3{margin:0 0 8px}.pass{color:#234}.fail{color:#a22;font-weight:700}@media(max-width:760px){#regressionPanel{width:calc(100vw - 20px);max-height:38vh;top:auto;bottom:10px}}</style>
 </head>
 <body>
 <div id="wrap">
-<svg id="stage" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet">
-  <defs>
-    <filter id="outerShadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/><feOffset in="blur" dx="0" dy="5" result="off"/><feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.20"/></feComponentTransfer><feMerge><feMergeNode in="fade"/></feMerge></filter>
-    <filter id="overlapShadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur"/><feOffset in="blur" dx="0" dy="2" result="off"/><feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.22"/></feComponentTransfer><feMerge><feMergeNode in="fade"/></feMerge></filter>
-  </defs>
-  <g id="world"><g id="shadowLayer" filter="url(#outerShadow)"></g><g id="linksLayer"></g><g id="mergeLayer"></g><g id="liveLayer"></g><g id="overlapLayer"></g><g id="nodesLayer"></g><g id="hiddenLayer"></g><g id="inkLayer"></g><g id="uiLayer"></g></g>
-</svg>
-<div id="status">餅マップ v0.9.4<br>BUILD 0911-FIX13 TEST<br>待機中</div>
-<div id="controls" aria-label="操作ツールバー">
-  <button id="undoBtn" disabled aria-label="戻る" title="戻る"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M9 7 4 12l5 5"/><path d="M5 12h7a6 6 0 0 1 6 6"/></svg></button>
-  <button id="redoBtn" disabled aria-label="進む" title="進む"><svg class="tool-icon" viewBox="0 0 24 24"><path d="m15 7 5 5-5 5"/><path d="M19 12h-7a6 6 0 0 0-6 6"/></svg></button>
-  <button id="fitBtn" aria-label="全体表示" title="全体表示"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M8 4H4v4M16 4h4v4M4 16v4h4M20 16v4h-4"/></svg></button>
-  <button id="selectBtn" aria-label="選択" title="選択"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M6 4l5.4 14 2.1-5.1L19 10.8 6 4Z"/></svg></button>
-  <button id="newBtn" aria-label="新規丸" title="新規丸"><svg class="tool-icon" viewBox="0 0 24 24"><circle cx="10" cy="12" r="6"/><path d="M18 6v6M15 9h6"/></svg></button>
-  <button id="linkBtn" aria-label="紐付け" title="紐付け"><svg class="tool-icon" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12c3-4 6-4 9 0"/></svg></button>
-  <button id="detachBtn" aria-label="分離" title="分離"><svg class="tool-icon" viewBox="0 0 24 24"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="m10 9-3 3 3 3M14 9l3 3-3 3"/></svg></button>
-  <button id="eraseBtn" aria-label="削除" title="削除"><svg class="tool-icon" viewBox="0 0 24 24"><path d="m8 17-3-3 8-8 5 5-6 6H8Z"/><path d="M12 17h7"/></svg></button>
-</div>
-<div id="contextMenu"><button id="ctxSelect">選択</button><button id="ctxNew">新規丸</button><button id="ctxDelete">削除</button><button id="ctxLink">紐付け（仮）</button><button id="ctxDetach">分離</button></div>
-<div id="confirmDelete"><div class="msg" id="deleteMsg"></div><div class="actions"><button id="cancelDelete">キャンセル</button><button id="doDelete" class="danger">削除</button></div></div>
-<div id="help">回帰テスト専用</div>
-</div>
-<div id="regressionPanel"><h2>回帰テスト実行中</h2><div id="regressionResults"></div><strong>再現シーン</strong><div id="scenarioButtons"></div></div>
-<script src="app-core.js?v=0911-fix13"></script>
-<script src="app-render.js?v=0911-fix13"></script>
-<script src="app-gesture.js?v=0911-fix13"></script>
-<script src="app-ui.js?v=0911-fix13"></script>
-<script src="app-fix6.js?v=0911-fix13"></script>
-<script src="app-fix7.js?v=0911-fix13"></script>
-<script src="app-fix8.js?v=0911-fix13"></script>
-<script src="app-fix9.js?v=0911-fix13"></script>
-<script src="app-fix10.js?v=0911-fix13"></script>
-<script src="app-fix11.js?v=0911-fix13"></script>
-<script src="app-fix12.js?v=0911-fix13"></script>
-<script src="app-fix13.js?v=0911-fix13"></script>
-<script src="app-fix13b.js?v=0911-fix13"></script>
-<script src="app-regression.js?v=0911-fix13"></script>
-</body>
-</html>
+<svg id="stage" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid meet"><defs><filter id="outerShadow" x="-30%" y="-30%" width="160%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="5" result="blur"/><feOffset in="blur" dx="0" dy="5" result="off"/><feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.20"/></feComponentTransfer><feMerge><feMergeNode in="fade"/></feMerge></filter><filter id="overlapShadow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur in="SourceAlpha" stdDeviation="2.2" result="blur"/><feOffset in="blur" dx="0" dy="2" result="off"/><feComponentTransfer in="off" result="fade"><feFuncA type="linear" slope="0.22"/></feComponentTransfer><feMerge><feMergeNode in="fade"/></feMerge></filter></defs><g id="world"><g id="shadowLayer" filter="url(#outerShadow)"></g><g id="linksLayer"></g><g id="mergeLayer"></g><g id="liveLayer"></g><g id="overlapLayer"></g><g id="nodesLayer"></g><g id="hiddenLayer"></g><g id="inkLayer"></g><g id="uiLayer"></g></g></svg>
+<div id="status">餅マップ v0.9.4<br>BUILD 0911-FIX14 TEST<br>待機中</div>
+<div id="controls"><button id="undoBtn" disabled aria-label="戻る"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M9 7 4 12l5 5"/><path d="M5 12h7a6 6 0 0 1 6 6"/></svg></button><button id="redoBtn" disabled aria-label="進む"><svg class="tool-icon" viewBox="0 0 24 24"><path d="m15 7 5 5-5 5"/></svg></button><button id="fitBtn" aria-label="全体表示"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M8 4H4v4M16 4h4v4M4 16v4h4M20 16v4h-4"/></svg></button><button id="selectBtn" aria-label="選択"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M5 6c2-2 10-2 13 1 2 2 1 7-2 9-3 2-9 2-11-1-2-2-2-7 0-9Z"/></svg></button><button id="newBtn" aria-label="新規丸"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M8 20c-4-2-6-7-4-12 2-5 8-7 13-4 5 3 6 10 2 14-2 2-5 3-8 2"/></svg></button><button id="linkBtn" aria-label="紐付け"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M2 7c3 0 4 1 5 3 .5 1 .7 1.5 1.8 1.5h6.4c1.1 0 1.3-.5 1.8-1.5 1-2 2-3 5-3"/><path d="M2 17c3 0 4-1 5-3 .5-1 .7-1.5 1.8-1.5h6.4c1.1 0 1.3.5 1.8 1.5 1 2 2 3 5 3"/></svg></button><button id="detachBtn" aria-label="分離"><svg class="tool-icon" viewBox="0 0 24 24"><path d="M1 6c4 0 5 2 6 5M1 18c4 0 5-2 6-5M23 6c-4 0-5 2-6 5M23 18c-4 0-5-2-6-5"/><path d="M12 7v3M12 14v3M7 12h3M14 12h3M8.5 8.5l2.1 2.1M13.4 13.4l2.1 2.1M15.5 8.5l-2.1 2.1M10.6 13.4l-2.1 2.1"/></svg></button><button id="eraseBtn" aria-label="削除"><svg class="tool-icon" viewBox="0 0 24 24"><path d="m8 17-3-3 8-8 5 5-6 6H8Z"/></svg></button></div>
+<div id="contextMenu"><button id="ctxSelect">選択</button><button id="ctxNew">新規丸</button><button id="ctxDelete">削除</button><button id="ctxLink">紐付け（仮）</button><button id="ctxDetach">分離</button></div><div id="confirmDelete"><div class="msg" id="deleteMsg"></div><div class="actions"><button id="cancelDelete">キャンセル</button><button id="doDelete" class="danger">削除</button></div></div><div id="help">回帰テスト</div></div>
+<div id="regressionPanel"><h2>回帰テスト</h2><div id="regressionResults"></div><div id="scenarioButtons"></div></div>
+<script src="app-core.js?v=0911-fix14"></script><script src="app-render.js?v=0911-fix14"></script><script src="app-gesture.js?v=0911-fix14"></script><script src="app-ui.js?v=0911-fix14"></script><script src="app-fix6.js?v=0911-fix14"></script><script src="app-fix7.js?v=0911-fix14"></script><script src="app-fix8.js?v=0911-fix14"></script><script src="app-fix9.js?v=0911-fix14"></script><script src="app-fix10.js?v=0911-fix14"></script><script src="app-fix11.js?v=0911-fix14"></script><script src="app-fix12.js?v=0911-fix14"></script><script src="app-fix13.js?v=0911-fix14"></script><script src="app-fix13b.js?v=0911-fix14"></script><script src="app-fix14.js?v=0911-fix14"></script><script src="app-regression14.js?v=0911-fix14"></script>
+</body></html>
