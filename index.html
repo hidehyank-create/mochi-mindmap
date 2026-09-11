@@ -8,7 +8,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <title>餅マップ v0.9.4</title>
-<link rel="stylesheet" href="style.css?v=0911-fix11">
+<link rel="stylesheet" href="style.css?v=0911-fix12">
 </head>
 <body>
 <div id="wrap">
@@ -19,21 +19,31 @@
   </defs>
   <g id="world"><g id="shadowLayer" filter="url(#outerShadow)"></g><g id="linksLayer"></g><g id="mergeLayer"></g><g id="liveLayer"></g><g id="overlapLayer"></g><g id="nodesLayer"></g><g id="hiddenLayer"></g><g id="inkLayer"></g><g id="uiLayer"></g></g>
 </svg>
-<div id="status">餅マップ v0.9.4<br>BUILD 0911-FIX11<br>待機中</div>
-<div id="controls"><button id="undoBtn" disabled>↶ 戻る</button><button id="redoBtn" disabled>↷ 進む</button><button id="selectBtn">選択</button><button id="eraseBtn">消しゴム</button><button id="newBtn">新規丸</button><button id="linkBtn">紐付け（仮）</button><button id="fitBtn">全体表示</button></div>
+<div id="status">餅マップ v0.9.4<br>BUILD 0911-FIX12<br>待機中</div>
+<div id="controls" aria-label="操作ツールバー">
+  <button id="undoBtn" disabled aria-label="戻る" title="戻る"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7 4 12l5 5"/><path d="M5 12h7a6 6 0 0 1 6 6"/></svg></button>
+  <button id="redoBtn" disabled aria-label="進む" title="進む"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m15 7 5 5-5 5"/><path d="M19 12h-7a6 6 0 0 0-6 6"/></svg></button>
+  <button id="fitBtn" aria-label="全体表示" title="全体表示"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4H4v4M16 4h4v4M4 16v4h4M20 16v4h-4"/></svg></button>
+  <button id="selectBtn" aria-label="選択" title="選択"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4l5.4 14 2.1-5.1L19 10.8 6 4Z"/></svg></button>
+  <button id="newBtn" aria-label="新規丸" title="新規丸"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="12" r="6"/><path d="M18 6v6M15 9h6"/></svg></button>
+  <button id="linkBtn" aria-label="紐付け" title="紐付け"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="12" r="2.5"/><path d="M7.5 12c3-4 6-4 9 0"/></svg></button>
+  <button id="detachBtn" aria-label="分離" title="分離"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="12" r="3"/><circle cx="18" cy="12" r="3"/><path d="m10 9-3 3 3 3M14 9l3 3-3 3"/></svg></button>
+  <button id="eraseBtn" aria-label="削除" title="削除"><svg class="tool-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 17-3-3 8-8 5 5-6 6H8Z"/><path d="M12 17h7"/></svg></button>
+</div>
 <div id="contextMenu"><button id="ctxSelect">選択</button><button id="ctxNew">新規丸</button><button id="ctxDelete">削除</button><button id="ctxLink">紐付け（仮）</button><button id="ctxDetach">分離</button></div>
 <div id="confirmDelete"><div class="msg" id="deleteMsg"></div><div class="actions"><button id="cancelDelete">キャンセル</button><button id="doDelete" class="danger">削除</button></div></div>
-<div id="help">Pencil：丸移動／外縁から外向き＝紐伸ばし　丸同士は接触で離す＝接着・そのまま押し込む＝ただ重なる　丸縁0.4秒＝サイズ編集　×＝削除<br>指1本：オブジェクト上＝操作／背景＝パン　指2本＝ズーム　指2本タップ＝メニュー　／　PC：右クリック＝その位置・対象へ即実行　分離＝埋没丸を回収　紐付け（仮）＝始点からポインタ追従</div>
+<div id="help">Pencil：丸移動／外縁から紐伸ばし／丸同士の迎え半円が触れたら離して接着／そのまま進むと重なり</div>
 </div>
-<script src="app-core.js?v=0911-fix11"></script>
-<script src="app-render.js?v=0911-fix11"></script>
-<script src="app-gesture.js?v=0911-fix11"></script>
-<script src="app-ui.js?v=0911-fix11"></script>
-<script src="app-fix6.js?v=0911-fix11"></script>
-<script src="app-fix7.js?v=0911-fix11"></script>
-<script src="app-fix8.js?v=0911-fix11"></script>
-<script src="app-fix9.js?v=0911-fix11"></script>
-<script src="app-fix10.js?v=0911-fix11"></script>
-<script src="app-fix11.js?v=0911-fix11"></script>
+<script src="app-core.js?v=0911-fix12"></script>
+<script src="app-render.js?v=0911-fix12"></script>
+<script src="app-gesture.js?v=0911-fix12"></script>
+<script src="app-ui.js?v=0911-fix12"></script>
+<script src="app-fix6.js?v=0911-fix12"></script>
+<script src="app-fix7.js?v=0911-fix12"></script>
+<script src="app-fix8.js?v=0911-fix12"></script>
+<script src="app-fix9.js?v=0911-fix12"></script>
+<script src="app-fix10.js?v=0911-fix12"></script>
+<script src="app-fix11.js?v=0911-fix12"></script>
+<script src="app-fix12.js?v=0911-fix12"></script>
 </body>
 </html>
