@@ -25,7 +25,6 @@
   function finishRect(e){if(!rectSel||e.pointerId!==rectSel.pointerId)return false;e.preventDefault();e.stopImmediatePropagation();const r=rectSel;rectSel=null;const minX=Math.min(r.start.x,r.now.x),maxX=Math.max(r.start.x,r.now.x),minY=Math.min(r.start.y,r.now.y),maxY=Math.max(r.start.y,r.now.y),ids=nodes.filter(n=>n.x>=minX&&n.x<=maxX&&n.y>=minY&&n.y<=maxY).map(n=>n.id);f13SetSelectedIds(ids);clearOneShotTool();renderUI();statusText(ids.length?`矩形選択 ${ids.length}個`:"選択解除");return true}
   window.addEventListener("pointerup",finishRect,true);window.addEventListener("pointercancel",finishRect,true);
 
-  // Desktop canvas pan: middle-mouse drag or Space + left drag. This mirrors two-finger pan on touch devices.
   document.addEventListener("keydown",e=>{if(e.code==="Space"&&!e.repeat&&!/INPUT|TEXTAREA/.test(e.target?.tagName||"")){spaceDown=true;document.body.classList.add("f22-space-pan");e.preventDefault()}});
   document.addEventListener("keyup",e=>{if(e.code==="Space"){spaceDown=false;document.body.classList.remove("f22-space-pan")}});
   window.addEventListener("blur",()=>{spaceDown=false;document.body.classList.remove("f22-space-pan")});
@@ -34,11 +33,10 @@
   function endPan(e){if(!pan||e.pointerId!==pan.pointerId)return false;e.preventDefault();e.stopImmediatePropagation();pan=null;document.body.classList.remove("f22-panning");renderAll();statusText("画面移動を確定");return true}
   window.addEventListener("pointerup",endPan,true);window.addEventListener("pointercancel",endPan,true);window.addEventListener("auxclick",e=>{if(e.button===1&&stageTarget(e.target))e.preventDefault()},true);
 
-  // Preserve explicit Bezier controls when a multi-selection moves. The control point follows the
-  // average endpoint displacement, so a rigid move keeps the curve exactly unchanged.
   const startGroupPrev=f13StartGroupDrag,updateGroupPrev=f13UpdateGroupDrag;
   f13StartGroupDrag=function(evt,p){startGroupPrev(evt,p);const g=f13GroupDrag;if(!g)return;const set=new Set(g.affected);g.f22Controls=[];for(const l of links){if(!l.control||!set.has(l.a)||!set.has(l.b))continue;const A=g.starts[l.a]||nodeById(l.a),B=g.starts[l.b]||nodeById(l.b);if(A&&B)g.f22Controls.push({id:l.id,c:{...l.control},a:{x:A.x,y:A.y},b:{x:B.x,y:B.y}})}};
   f13UpdateGroupDrag=function(p){updateGroupPrev(p);const g=f13GroupDrag;if(!g?.f22Controls)return;for(const s of g.f22Controls){const l=linkById(s.id),A=nodeById(l?.a),B=nodeById(l?.b);if(!l||!A||!B)continue;const dx=((A.x-s.a.x)+(B.x-s.b.x))/2,dy=((A.y-s.a.y)+(B.y-s.b.y))/2;l.control={x:s.c.x+dx,y:s.c.y+dy}}scheduleMotionRender()};
 
   window.__mochiFix22UI={getSelectMode:()=>selectMode,setSelectMode:m=>{selectMode=m==="rect"?"rect":"lasso";return selectMode},placeModeBtn,isPanning:()=>!!pan};
 })();
+(function(){const c=document.createElement("link");c.rel="stylesheet";c.href="style-fix23.css?v=0914-fix23";document.head.appendChild(c);const files=["app-fix23-geometry.js","app-fix23-render.js","app-fix23-hit.js","app-fix23-guide.js","app-fix23-context.js"],test=document.getElementById("regressionResults")?"app-regression23.js":null;function load(i){if(i>=files.length){if(test){const s=document.createElement("script");s.src=test+"?v=0914-fix23";document.body.appendChild(s)}return}const s=document.createElement("script");s.src=files[i]+"?v=0914-fix23";s.onload=()=>load(i+1);document.body.appendChild(s)}load(0)})();
