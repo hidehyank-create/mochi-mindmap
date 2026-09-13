@@ -1,0 +1,13 @@
+"use strict";
+(function(){const T=window.__mochiFix20Test||{},U=window.__mochiFix20UI||{},out=document.getElementById("regressionResults"),r=[];const A=(x,m)=>{if(!x)throw new Error(m)},test=(n,f)=>{try{f();r.push({n,ok:1})}catch(e){r.push({n,ok:0,e:e.message})}};function N(id,x,y,rr=70,z=1){return{id,x,y,r:rr,label:id,z,created:z}}function L(id,a,b,z=2){return{id,a,b,seq:z,z}}function reset(ns=[],ls=[]){gesture=null;selected=null;nodes.splice(0,nodes.length,...ns);links.splice(0,links.length,...ls);attachments.splice(0);view.x=0;view.y=0;view.scale=1;applyView();renderAll()}
+test("F20-01 ヒョコは広い円弧変形",()=>{reset([N("a",300,350,82,1),N("b",480,350,82,2)]);const m=f13ContactMetrics(nodes[0],nodes[1]),d=T.bulgedNodePath(nodes[0],nodes[1],m);A(d&&d.split("L").length>120,"変形点が少ない")});
+test("F20-02 完全内包でも上丸が先頭",()=>{reset([N("big",500,350,150,1),N("small",500,350,55,9)]);A(T.topNode(500,350,0)?.id==="small","上丸優先でない")});
+test("F20-03 同一点再選択で下丸へ巡回",()=>{reset([N("big",500,350,150,1),N("small",500,350,55,9)]);const a=T.pickNode(500,350,0),b=T.pickNode(500,350,0);A(a?.id!==b?.id&&b?.id==="big","下丸へ巡回しない")});
+test("F20-04 部分隠れ根本R破線",()=>{reset([N("a",300,350,70,1),N("b",700,350,70,2),N("cover",360,350,115,9)],[L("l","a","b",3)]);T.renderHidden();A(hiddenLayer.querySelector('[data-hidden-root="l"]'),"根本R破線なし")});
+test("F20-05 隠れ紐側面破線",()=>{reset([N("a",300,350,70,1),N("b",700,350,70,2),N("cover",500,350,120,9)],[L("l","a","b",3)]);T.renderHidden();A(hiddenLayer.querySelector('[data-hidden-link="l"]'),"紐破線なし")});
+test("F20-06 紐交差は下紐切り欠き",()=>{reset([N("a",150,350,45,1),N("b",850,350,45,1),N("c",500,100,45,1),N("d",500,600,45,1)],[L("low","a","b",2),L("up","c","d",9)]);T.renderBoundaries();A(overlapLayer.querySelector('[data-z-boundary="link-link-lower-cut"]'),"下紐切り欠きなし");A(overlapLayer.querySelector('[data-z-boundary="link-link-upper-redraw"]'),"上紐再描画なし")});
+test("F20-07 消しゴム配色反転",()=>A(document.querySelector('#eraseBtn svg')?.getAttribute('data-f20-eraser')==='1',"消しゴム未更新"));
+test("F20-08 コンテクストメニュー6項目",()=>{const x=U.contextLabels?.()||[];A(x.join("|")==="全体|選択|新規丸|紐付け|分離|消しゴム",x.join("|"))});
+test("F20-09 選択を含む5ツール統一",()=>A(U.toolCount===5,"選択が統一対象でない"));
+test("F20-10 PCズームは維持",()=>A(document.getElementById("zoomInBtn")&&document.getElementById("zoomOutBtn"),"ズームボタンなし"));
+const ok=r.every(x=>x.ok);document.body.dataset.regression20Status=ok?"PASS":"FAIL";const box=document.createElement("div");box.innerHTML=`<h3>FIX20 ${ok?"PASS":"FAIL"} (${r.filter(x=>x.ok).length}/${r.length})</h3>`+r.map(x=>`<div class="${x.ok?'pass':'fail'}">${x.ok?'✓':'✗'} ${x.n}${x.ok?'':` — ${x.e}`}</div>`).join("");out?.prepend(box)})();
