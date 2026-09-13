@@ -1,0 +1,12 @@
+#f22OverlapChooser{position:fixed;z-index:12050;min-width:160px;max-width:min(260px,calc(100vw - 20px));padding:7px;background:rgba(255,255,255,.97);border:1px solid rgba(70,60,45,.12);border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+#f22OverlapChooser .f22-choice-title{font-size:11px;font-weight:800;color:#5b5141;padding:4px 8px 6px;white-space:nowrap}
+#f22OverlapChooser button{display:block;width:100%;padding:9px 10px;margin:1px 0;text-align:left;background:transparent;box-shadow:none;border-radius:9px;font-size:13px}
+#f22OverlapChooser button:hover,#f22OverlapChooser button:active{background:rgba(195,146,46,.15)}
+.f22-choice-ring{stroke:#c3922e!important;stroke-width:4!important;stroke-dasharray:none!important}
+#f22SelectModeBtn{position:fixed;z-index:10020;width:20px;height:20px;min-width:20px;padding:0;border-radius:8px;background:rgba(255,255,255,.94);box-shadow:0 1px 5px rgba(0,0,0,.10);font-size:11px;line-height:20px;color:#5a5144}
+#f22SelectModeMenu{display:none;position:fixed;z-index:12040;width:126px;padding:5px;background:rgba(255,255,255,.98);border:1px solid rgba(70,60,45,.10);border-radius:11px;box-shadow:0 7px 22px rgba(0,0,0,.17)}
+#f22SelectModeMenu button{display:block;width:100%;padding:8px 9px;text-align:left;background:transparent;box-shadow:none;border-radius:8px;font-size:12px}
+#f22SelectModeMenu button:hover,#f22SelectModeMenu button:active{background:rgba(111,101,85,.10)}
+.f22-rect-select{fill:rgba(111,101,85,.05);stroke:#6f6555;stroke-width:2.2;stroke-dasharray:8 6;pointer-events:none}
+body.f22-space-pan #stage{cursor:grab}body.f22-panning #stage{cursor:grabbing}
+@media(max-width:680px){#f22OverlapChooser{font-size:12px}#f22SelectModeBtn{width:19px;height:19px;min-width:19px;font-size:10px}}
