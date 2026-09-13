@@ -1,0 +1,10 @@
+"use strict";
+(function(){
+  const css=document.createElement("link");css.rel="stylesheet";css.href="style-fix18.css?v=0913-fix18";document.head.appendChild(css);
+  const NS="http://www.w3.org/2000/svg";
+  function path(d,attrs={}){const p=document.createElementNS(NS,"path");p.setAttribute("d",d);for(const[k,v]of Object.entries(attrs))p.setAttribute(k,v);return p}
+  const n=document.querySelector("#newBtn svg");if(n){n.setAttribute("viewBox","0 0 32 32");n.replaceChildren(path("M11.5 28C5.2 27.2 1.8 21.4 3.2 13.8 4.7 5.8 12.1 1.8 20 3.4 27.1 4.9 30.1 11.9 27.8 19.1 25.8 25.4 19.8 28.1 13.2 27.5 15.3 28.1 18.1 29.4 21.4 31",{"data-icon-part":"scribble","data-f18-tail":"1","stroke-width":"3.1"}))}
+  const l=document.querySelector("#linkBtn svg");if(l){l.setAttribute("viewBox","0 0 32 24");l.setAttribute("data-f18-large","1");l.classList.add("f18-large");l.replaceChildren(path("M0 1.2C5.8 1.2 8.2 4.6 9.5 8.2 10 9.6 10.8 10.1 12.3 10.1H19.7C21.2 10.1 22 9.6 22.5 8.2 23.8 4.6 26.2 1.2 32 1.2V22.8C26.2 22.8 23.8 19.4 22.5 15.8 22 14.4 21.2 13.9 19.7 13.9H12.3C10.8 13.9 10 14.4 9.5 15.8 8.2 19.4 5.8 22.8 0 22.8Z",{"data-icon-part":"fill"}))}
+  const d=document.querySelector("#detachBtn svg");if(d){d.setAttribute("viewBox","0 0 32 24");d.setAttribute("data-f18-large","1");d.classList.add("f18-large");d.replaceChildren(path("M0 1.2C6.1 1.2 8.7 5.4 9.8 10V14C8.7 18.6 6.1 22.8 0 22.8Z",{"data-icon-part":"fill"}),path("M32 1.2C25.9 1.2 23.3 5.4 22.2 10V14C23.3 18.6 25.9 22.8 32 22.8Z",{"data-icon-part":"fill"}),path("M16 3.1v5M16 15.9v5M7.2 12h5M19.8 12h5M9.8 5.8l3.6 3.6M18.6 14.6l3.6 3.6M22.2 5.8l-3.6 3.6M13.4 14.6l-3.6 3.6"))}
+  const e=document.querySelector("#eraseBtn svg");if(e){e.setAttribute("viewBox","0 0 40 24");e.setAttribute("data-f18-long","1");e.replaceChildren(path("M2.5 4.5H36.5Q38 4.5 38 6V18Q38 19.5 36.5 19.5H2.5Q1 19.5 1 18V6Q1 4.5 2.5 4.5Z",{fill:"none",stroke:"currentColor","stroke-width":"2"}),path("M2 5.5H25V18.5H2Z",{"data-icon-part":"paper",fill:"currentColor",stroke:"none",opacity:".32"}),path("M25 5V19",{"data-icon-part":"divider",fill:"none",stroke:"currentColor","stroke-width":"2"}))}
+})();
