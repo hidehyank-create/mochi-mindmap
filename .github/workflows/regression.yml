@@ -27,8 +27,8 @@ jobs:
             if curl -fsS http://127.0.0.1:8765/regression.html >/dev/null; then break; fi
             sleep 0.2
           done
-          "$CHROME" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=10500 --dump-dom 'http://127.0.0.1:8765/regression.html?ci=1' > /tmp/mochi-regression-dom.html
-          grep -o 'FIX19 [^<]*' /tmp/mochi-regression-dom.html || true
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=11000 --dump-dom 'http://127.0.0.1:8765/regression.html?ci=1' > /tmp/mochi-regression-dom.html
+          grep -o 'FIX20 [^<]*' /tmp/mochi-regression-dom.html || true
           grep -o 'class="fail"[^<]*>[^<]*' /tmp/mochi-regression-dom.html || true
-          grep 'data-regression19-status="PASS"' /tmp/mochi-regression-dom.html
-          grep 'FIX19 PASS (13/13)' /tmp/mochi-regression-dom.html
+          grep 'data-regression20-status="PASS"' /tmp/mochi-regression-dom.html
+          grep 'FIX20 PASS (10/10)' /tmp/mochi-regression-dom.html
