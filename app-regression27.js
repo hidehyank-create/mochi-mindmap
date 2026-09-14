@@ -4,8 +4,8 @@
  test("F27-02 半径差14は金銀候補",()=>A(T.nearByHoseHalf([N("a",0,0,80),N("b",0,0,94)]),"14差を拒否"));
  test("F27-03 半径差16は通常選択",()=>A(!T.nearByHoseHalf([N("a",0,0,80),N("b",0,0,96)]),"16差まで金銀"));
  test("F27-04 完全被覆された下丸の破線は抑制",()=>{reset([N("low",500,350,70,1),N("up",500,350,90,2)]);A(T.hiddenCircleRuns(nodes[0],nodes[1]).length===0,"完全被覆破線が残る")});
- test("F27-05 部分重なりの隠れ破線は維持",()=>{reset([N("low",470,350,80,1),N("up",550,350,80,2)]);A(Array.isArray(T.hiddenCircleRuns(nodes[0],nodes[1])),"hidden API不正")});
- test("F27-06 2丸外形の雪だるま線を生成",()=>{reset([N("a",440,350,70,1),N("b",552,350,70,2)]);A(T.outerRuns(nodes[0],nodes[1]).length>=2,"外形線なし")});
+ test("F27-05 ダブルクリックは小丸領域を大丸から除外",()=>{reset([N("big",500,350,110,1),N("small",555,350,42,2)]);A(T.dblTargetAt({x:555,y:350})?.id==="small","重なり部で大丸を選択");A(T.dblTargetAt({x:420,y:350})?.id==="big","大丸露出部を選択できない")});
+ test("F27-06 2丸外形と剛体移動APIを維持",()=>{reset([N("a",440,350,70,1),N("b",552,350,70,2)]);A(T.outerRuns(nodes[0],nodes[1]).length>=2,"外形線なし");A(typeof T.rigidGroupMove==="function","剛体グループ移動なし")});
  test("F27-07 選択色は緑",()=>{const s=[...document.styleSheets].flatMap(x=>{try{return[...x.cssRules]}catch(_){return[]}}).find(x=>x.selectorText===".selection-ring");A(s&&getComputedStyle(document.documentElement).getPropertyValue!==undefined,"selection CSSなし")});
  test("F27-08 リサイズ色は黄",()=>{A([...document.styleSheets].some(x=>{try{return[...x.cssRules].some(r=>r.selectorText===".resize-ring"&&r.cssText.includes("240, 180, 0")||r.selectorText===".resize-ring"&&r.cssText.includes("#f0b400"))}catch(_){return false}}),"resize CSSなし")});
  test("F27-09 FIX26接着禁止ロジックを維持",()=>A(typeof window.__mochiFix26Test?.predictAttachAllowed==="function","FIX26 attach API消失"));
