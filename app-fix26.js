@@ -14,7 +14,8 @@
   f22HitsAt=function(x,y,pad=0){return resolvedHits(x,y,pad)};
   nearestNode=function(x,y){const n=resolvedHits(x,y,24/view.scale)[0]||null;return n?{node:n,d:dist(x,y,n.x,n.y)}:null};
 
-  function startNodePointer(evt,p,n){selected={type:"node",id:n.id};const d=dist(p.x,p.y,n.x,n.y),moveFrac=evt.pointerType==="mouse"?.78:.70;if(d<=n.r*moveFrac)startMoveGesture(evt,p,n);else armHold("node",n.id,evt,p);svg.setPointerCapture?.(evt.pointerId)}
+  function capturePointer(id){try{svg.setPointerCapture?.(id)}catch(_){}}
+  function startNodePointer(evt,p,n){selected={type:"node",id:n.id};const d=dist(p.x,p.y,n.x,n.y),moveFrac=evt.pointerType==="mouse"?.78:.70;if(d<=n.r*moveFrac)startMoveGesture(evt,p,n);else armHold("node",n.id,evt,p);capturePointer(evt.pointerId)}
   f22ChooseNode=function(id){const n=nodeById(id);if(!n)return;if(typeof f13SetSelectedIds==="function")f13SetSelectedIds([]);selected={type:"node",id};pendingChoice=id;pendingChoicePointer=null;f22ChoiceArmed=null;f24ArmedNode=null;f25ArmedNode=null;f22CloseChooser();renderAll();statusText(`重なり選択：${n.label||id}（次の1回だけ固定）`)};
   const prevPenDown=penDown;
   penDown=function(evt,allowTouch=false){
