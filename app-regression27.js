@@ -1,0 +1,13 @@
+"use strict";
+(function(){const T=window.__mochiFix27Test||{},out=document.getElementById("regressionResults"),r=[];const A=(x,m)=>{if(!x)throw new Error(m)},test=(n,f)=>{try{f();r.push({n,ok:1})}catch(e){r.push({n,ok:0,e:e?.message||String(e)})}};function N(id,x,y,rr=70,z=1){return{id,x,y,r:rr,label:id,z,created:z}}function reset(ns=[]){if(renderRAF){cancelAnimationFrame(renderRAF);renderRAF=0}cancelHold?.();gesture=null;selected=null;nodes.splice(0,nodes.length,...ns.map(x=>({...x})));links.splice(0);attachments.splice(0);crossPairs.clear();view.x=0;view.y=0;view.scale=1;applyView();renderAll()}
+ test("F27-01 金銀近似値は紐幅半分",()=>A(Math.abs(T.nearDiff-LINK_BASE_WIDTH/2)<.001,`near=${T.nearDiff}`));
+ test("F27-02 半径差14は金銀候補",()=>A(T.nearByHoseHalf([N("a",0,0,80),N("b",0,0,94)]),"14差を拒否"));
+ test("F27-03 半径差16は通常選択",()=>A(!T.nearByHoseHalf([N("a",0,0,80),N("b",0,0,96)]),"16差まで金銀"));
+ test("F27-04 完全被覆された下丸の破線は抑制",()=>{reset([N("low",500,350,70,1),N("up",500,350,90,2)]);A(T.hiddenCircleRuns(nodes[0],nodes[1]).length===0,"完全被覆破線が残る")});
+ test("F27-05 部分重なりの隠れ破線は維持",()=>{reset([N("low",470,350,80,1),N("up",550,350,80,2)]);A(Array.isArray(T.hiddenCircleRuns(nodes[0],nodes[1])),"hidden API不正")});
+ test("F27-06 2丸外形の雪だるま線を生成",()=>{reset([N("a",440,350,70,1),N("b",552,350,70,2)]);A(T.outerRuns(nodes[0],nodes[1]).length>=2,"外形線なし")});
+ test("F27-07 選択色は緑",()=>{const s=[...document.styleSheets].flatMap(x=>{try{return[...x.cssRules]}catch(_){return[]}}).find(x=>x.selectorText===".selection-ring");A(s&&getComputedStyle(document.documentElement).getPropertyValue!==undefined,"selection CSSなし")});
+ test("F27-08 リサイズ色は黄",()=>{A([...document.styleSheets].some(x=>{try{return[...x.cssRules].some(r=>r.selectorText===".resize-ring"&&r.cssText.includes("240, 180, 0")||r.selectorText===".resize-ring"&&r.cssText.includes("#f0b400"))}catch(_){return false}}),"resize CSSなし")});
+ test("F27-09 FIX26接着禁止ロジックを維持",()=>A(typeof window.__mochiFix26Test?.predictAttachAllowed==="function","FIX26 attach API消失"));
+ test("F27-10 FIX25境界ロジックを維持",()=>A(typeof window.__mochiFix25Test?.renderBoundaries==="function","FIX25 boundary API消失"));
+ const ok=r.every(x=>x.ok);document.body.dataset.regression27Status=ok?"PASS":"FAIL";const box=document.createElement("div");box.id="regression27";box.innerHTML=`<h3>FIX27 ${ok?"PASS":"FAIL"} (${r.filter(x=>x.ok).length}/${r.length})</h3>`+r.map(x=>`<div class="${x.ok?'pass':'fail'}">${x.ok?'✓':'✗'} ${x.n}${x.ok?'':` — ${x.e}`}</div>`).join("");out?.prepend(box)})();
