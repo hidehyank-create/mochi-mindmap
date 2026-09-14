@@ -17,15 +17,16 @@
 
   penDown=function(evt,allowTouch=false){
     if(gesture||(!allowTouch&&touches.size)||confirmDelete.style.display==="block")return;
-    const p=eventToWorld(evt),n=nodeAtEvent(evt);
+    const p=eventToWorld(evt),hs=T26.rawNodes(p),n=nodeAtEvent(evt);
     if(resizeArmedId&&n&&n.id===resizeArmedId){evt.preventDefault();beginResize(evt,n,p);return}
+    if(hs.length>1&&nearByHoseHalf(hs)&&!T26.pending?.()){evt.preventDefault();selected=null;f22ChoiceArmed=null;f24ArmedNode=null;f25ArmedNode=null;f22ShowChooser(hs,evt);return}
     if(n&&selected?.type==="node"&&selected.id===n.id&&componentIds(n.id).length===2){evt.preventDefault();if(beginGroupPending(evt,n,p))return}
     return prevPenDown(evt,allowTouch)
   };
   penMove=function(evt){
     if(gesture?.mode==="f27GroupPending"&&evt.pointerId===gesture.pointerId){evt.preventDefault();const g=gesture,p=eventToWorld(evt);g.last=p;const th=(g.inputType==="pen"?PEN_MOVE_THRESHOLD:MOVE_THRESHOLD)/view.scale;if(dist(g.start.x,g.start.y,p.x,p.y)>th){if(g.holdTimer){clearTimeout(g.holdTimer);g.holdTimer=0}gesture=null;const n=nodeById(g.nodeId);if(n){startMoveGesture(evt,g.start,n);return prevPenMove(evt)}}return}
     const g=gesture,ids=g&&(g.mode==="pivot"||g.mode==="move")?componentIds(g.nodeId):[];
-    if(ids.length>1){const before=T26?(()=>{const o={};for(const id of ids){const n=nodeById(id);if(n)o[id]={x:n.x,y:n.y,r:n.r}}return o})():null,v0=T26.violation(ids),r=prevPenMove(evt);if(before&&gesture&&T26.constrain(ids,before,v0)){scheduleMotionRender();statusText("接着グループ：紐との隙間を保持")};return r}
+    if(ids.length>1){const before=(()=>{const o={};for(const id of ids){const n=nodeById(id);if(n)o[id]={x:n.x,y:n.y,r:n.r}}return o})(),v0=T26.violation(ids),r=prevPenMove(evt);if(gesture&&T26.constrain(ids,before,v0)){scheduleMotionRender();statusText("接着グループ：紐との隙間を保持")};return r}
     return prevPenMove(evt)
   };
   penEnd=function(evt){if(gesture?.mode==="f27GroupPending"&&evt.pointerId===gesture.pointerId){evt.preventDefault();if(gesture.holdTimer)clearTimeout(gesture.holdTimer);gesture=null;renderUI();statusText("選択中");return}return prevPenEnd(evt)};
