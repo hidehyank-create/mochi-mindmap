@@ -1,0 +1,2 @@
+"use strict";
+(function(){const s=document.createElement("script");s.src="app-fix26.js?v=0915-fix26";s.onload=()=>{if(!document.getElementById("regressionResults"))return;const load=()=>{if(document.getElementById("regression26"))return;if(!document.getElementById("regression25a")){setTimeout(load,30);return}const t=document.createElement("script");t.src="app-regression26.js?v=0915-fix26";document.body.appendChild(t)};load()};document.body.appendChild(s)})();
