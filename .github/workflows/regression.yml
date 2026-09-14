@@ -27,10 +27,11 @@ jobs:
             if curl -fsS http://127.0.0.1:8765/regression.html >/dev/null; then break; fi
             sleep 0.2
           done
-          "$CHROME" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=28000 --dump-dom 'http://127.0.0.1:8765/regression.html?ci=1' > /tmp/mochi-regression-dom.html
+          "$CHROME" --headless=new --no-sandbox --disable-gpu --disable-dev-shm-usage --virtual-time-budget=32000 --dump-dom 'http://127.0.0.1:8765/regression.html?ci=1' > /tmp/mochi-regression-dom.html
           grep -o 'FIX25 [^<]*' /tmp/mochi-regression-dom.html || true
           grep -o 'FIX25A [^<]*' /tmp/mochi-regression-dom.html || true
           grep -o 'FIX26 [^<]*' /tmp/mochi-regression-dom.html || true
+          grep -o 'FIX27 [^<]*' /tmp/mochi-regression-dom.html || true
           grep -o 'class="fail"[^<]*>[^<]*' /tmp/mochi-regression-dom.html || true
           grep 'data-regression25-status="PASS"' /tmp/mochi-regression-dom.html
           grep 'FIX25 PASS (12/12)' /tmp/mochi-regression-dom.html
@@ -38,3 +39,5 @@ jobs:
           grep 'FIX25A PASS (2/2)' /tmp/mochi-regression-dom.html
           grep 'data-regression26-status="PASS"' /tmp/mochi-regression-dom.html
           grep 'FIX26 PASS (12/12)' /tmp/mochi-regression-dom.html
+          grep 'data-regression27-status="PASS"' /tmp/mochi-regression-dom.html
+          grep 'FIX27 PASS (10/10)' /tmp/mochi-regression-dom.html
