@@ -3,7 +3,7 @@
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
   if(window.__mochiFix27RInstalled)return;window.__mochiFix27RInstalled=true;
   const F27R_BUILD="0917-FIX27T",P=window.__mochiFix27PTest;
-  const diagnosticStyle=document.createElement("style");diagnosticStyle.id="f27tLayerColors";diagnosticStyle.textContent=`#hiddenLayer path.hidden-outline{stroke:#e32636!important}#zTopLayer path{stroke:#1769e0!important}#zTopLayer path[data-z-boundary="link-node-gap"]{stroke:#f59e0b!important}#overlapLayer path{stroke:#16a34a!important}#linksLayer path,#mergeLayer path,#liveLayer path{stroke:#a21caf!important}`;document.head.appendChild(diagnosticStyle);
+  const diagnosticStyle=document.createElement("style");diagnosticStyle.id="f27tLayerColors";diagnosticStyle.textContent=`#hiddenLayer path.hidden-outline{stroke:#e32636!important}#zTopLayer path{stroke:#1769e0!important}#zTopLayer path[data-z-boundary="link-node-gap"]{stroke:#f59e0b!important}#overlapLayer path{stroke:#16a34a!important}#linksLayer path,#mergeLayer path,#liveLayer path{stroke:transparent!important}`;document.head.appendChild(diagnosticStyle);
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));
   const orderedLinks=()=>f24LinkOrder();
   const linkAbove=(low,up)=>{const os=orderedLinks(),a=os.findIndex(l=>l.id===low.id),b=os.findIndex(l=>l.id===up.id);return a>=0&&b>a};
