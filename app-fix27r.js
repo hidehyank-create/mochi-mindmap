@@ -28,6 +28,10 @@
     const near=(p,pts)=>pts.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<=3.5);
     for(const path of [...zTopLayer.querySelectorAll("path[data-z-boundary]")]){
       const kind=path.getAttribute("data-z-boundary")||"";
+      if(kind==="link-node-gap"){
+        const width=parseFloat(getComputedStyle(path).strokeWidth);
+        if(Number.isFinite(width)&&width>5)path.style.strokeWidth=`${width-5}px`;
+      }
       if(/(?:^|-)node-top$/.test(kind)||kind==="link-node-top"){
         const width=parseFloat(getComputedStyle(path).strokeWidth);
         if(Number.isFinite(width)&&width>1)path.style.strokeWidth=`${Math.max(1,width*.75)}px`;
