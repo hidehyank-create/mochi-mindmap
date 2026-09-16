@@ -34,7 +34,7 @@
       }
       if(/(?:^|-)node-top$/.test(kind)||kind==="link-node-top"){
         const width=parseFloat(getComputedStyle(path).strokeWidth);
-        if(Number.isFinite(width)&&width>1)path.style.strokeWidth=`${Math.max(1,width*.75)}px`;
+        if(Number.isFinite(width)&&width>1)path.style.strokeWidth=`${Math.max(1,width*.55)}px`;
       }
       if(!/(sep|upper-link-side|upper-link-root|node-over-link)$/.test(kind))continue;
       const len=path.getTotalLength();if(len<8)continue;
