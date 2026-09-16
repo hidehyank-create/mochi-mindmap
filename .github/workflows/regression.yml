@@ -40,4 +40,4 @@ jobs:
           grep 'data-regression26-status="PASS"' /tmp/mochi-regression-dom.html
           grep 'FIX26 PASS (12/12)' /tmp/mochi-regression-dom.html
           grep 'data-regression27-status="PASS"' /tmp/mochi-regression-dom.html
-          grep 'FIX27 PASS (20/20)' /tmp/mochi-regression-dom.html
+          grep 'FIX27 PASS (22/22)' /tmp/mochi-regression-dom.html
