@@ -1,0 +1,14 @@
+/* FIX27J: keep the toolbar centered for every iPad/browser window width. */
+#controls{
+  left:50%!important;
+  right:auto!important;
+  transform:translateX(-50%)!important;
+  max-width:calc(100vw - 16px)!important;
+}
+@media(max-width:680px){
+  #controls{
+    left:50%!important;
+    right:auto!important;
+    transform:translateX(-50%)!important;
+  }
+}
