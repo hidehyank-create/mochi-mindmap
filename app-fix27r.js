@@ -3,7 +3,7 @@
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
   if(window.__mochiFix27RInstalled)return;window.__mochiFix27RInstalled=true;
   const F27R_BUILD="0917-FIX27T",P=window.__mochiFix27PTest;
-  const diagnosticStyle=document.createElement("style");diagnosticStyle.id="f27tLayerColors";diagnosticStyle.textContent=`#hiddenLayer path.hidden-outline{stroke:#e32636!important}#zTopLayer{display:none!important}#overlapLayer path{stroke:#16a34a!important}#shadowLayer,#linksLayer,#mergeLayer,#liveLayer{opacity:0!important}`;document.head.appendChild(diagnosticStyle);
+  document.getElementById("f27tLayerColors")?.remove();
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));
   const orderedLinks=()=>f24LinkOrder();
   const linkAbove=(low,up)=>{const os=orderedLinks(),a=os.findIndex(l=>l.id===low.id),b=os.findIndex(l=>l.id===up.id);return a>=0&&b>a};
@@ -64,6 +64,6 @@
   renderAll=function(){if(renderRAF){cancelAnimationFrame(renderRAF);renderRAF=0}shadowLayer.style.display="";overlapLayer.style.display="";hiddenLayer.style.display="";renderShadow();renderLinks(false);renderNodes();f25RenderBoundaries();f25RenderHidden();renderUI();f22PlaceStatus();f24PlaceGuide()};
   renderMotionNow=function(){shadowLayer.style.display="none";hiddenLayer.style.display="";renderLinks(true);renderNodes();f25RenderBoundaries();f25RenderHidden();renderUI();f22PlaceStatus();f24PlaceGuide()};
   window.__mochiFix27RTest={ownerAt,hiddenAt,contourRuns};
-  statusText=function(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD ${F27R_BUILD}<br>${t}`;f22PlaceStatus()};renderAll();statusText("診断色：hidden＝赤／zTop＝青／gapマスク＝橙／overlap＝緑／その他＝紫");
+  statusText=function(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD ${F27R_BUILD}<br>${t}`;f22PlaceStatus()};renderAll();statusText("待機中");
   if(document.getElementById("regressionResults")){const loadTest=()=>{if(document.getElementById("regression27r"))return;if(!document.getElementById("regression27q")){setTimeout(loadTest,25);return}const s=document.createElement("script");s.src="app-regression27r.js?v=0916-fix27r";document.body.appendChild(s)};loadTest()}
 })();
