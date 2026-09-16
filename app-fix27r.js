@@ -2,7 +2,7 @@
 (function installFix27R(){
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
   if(window.__mochiFix27RInstalled)return;window.__mochiFix27RInstalled=true;
-  const F27R_BUILD="0916-FIX27R",P=window.__mochiFix27PTest;
+  const F27R_BUILD="0916-FIX27S",P=window.__mochiFix27PTest;
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));
   const orderedLinks=()=>f24LinkOrder();
   const linkAbove=(low,up)=>{const os=orderedLinks(),a=os.findIndex(l=>l.id===low.id),b=os.findIndex(l=>l.id===up.id);return a>=0&&b>a};
@@ -23,13 +23,13 @@
   function append(d,attrs){hiddenLayer.appendChild(sEl("path",{d,class:"hidden-outline","data-f27r":"1",...attrs}))}
   f25RenderHidden=function(){
     hiddenLayer.replaceChildren();
-    for(const n of orderedNodes())for(const d of P.nodeRuns(n))append(d,{"data-f27r-owner":`node:${n.id}`,"data-f27r-contour":"node","data-f27r-lower":n.id});
-    for(const l of orderedLinks())for(const side of[-1,1])for(const d of contourRuns(l,side))append(d,{"data-f27r-owner":`link-exterior:${l.id}:${side}`,"data-f27r-contour":"link-exterior","data-f27r-lower":l.id,"data-f27r-side":side});
+    for(const n of orderedNodes())for(const d of P.nodeRuns(n))append(d,{"data-f27r-owner":`node:${n.id}`,"data-f27r-contour":"node","data-f27r-lower":n.id,stroke:"#d12c5b"});
+    for(const l of orderedLinks())for(const side of[-1,1])for(const d of contourRuns(l,side))append(d,{"data-f27r-owner":`link-exterior:${l.id}:${side}`,"data-f27r-contour":"link-exterior","data-f27r-lower":l.id,"data-f27r-side":side,stroke:"#1479d1"});
   };
   renderHidden=f25RenderHidden;
   renderAll=function(){if(renderRAF){cancelAnimationFrame(renderRAF);renderRAF=0}shadowLayer.style.display="";overlapLayer.style.display="";hiddenLayer.style.display="";renderShadow();renderLinks(false);renderNodes();f25RenderBoundaries();f25RenderHidden();renderUI();f22PlaceStatus();f24PlaceGuide()};
   renderMotionNow=function(){shadowLayer.style.display="none";hiddenLayer.style.display="";renderLinks(true);renderNodes();f25RenderBoundaries();f25RenderHidden();renderUI();f22PlaceStatus();f24PlaceGuide()};
   window.__mochiFix27RTest={ownerAt,hiddenAt,contourRuns};
-  statusText=function(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD ${F27R_BUILD}<br>${t}`;f22PlaceStatus()};renderAll();statusText("待機中");
+  statusText=function(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD ${F27R_BUILD}<br>${t}`;f22PlaceStatus()};renderAll();statusText("診断色：丸＝赤／紐・根本R＝青");
   if(document.getElementById("regressionResults")){const loadTest=()=>{if(document.getElementById("regression27r"))return;if(!document.getElementById("regression27q")){setTimeout(loadTest,25);return}const s=document.createElement("script");s.src="app-regression27r.js?v=0916-fix27r";document.body.appendChild(s)};loadTest()}
 })();
