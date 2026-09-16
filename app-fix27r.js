@@ -28,7 +28,7 @@
     const near=(p,pts)=>pts.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<=3.5);
     for(const path of [...zTopLayer.querySelectorAll("path[data-z-boundary]")]){
       const kind=path.getAttribute("data-z-boundary")||"";
-      if(!/sep$/.test(kind))continue;
+      if(!/(sep|upper-link-side|upper-link-root)$/.test(kind))continue;
       const len=path.getTotalLength();if(len<8)continue;
       let hit=0,total=0;
       for(let i=1;i<10;i++){const p=path.getPointAtLength(len*i/10);total++;if(samples.some(pts=>near(p,pts)))hit++}
