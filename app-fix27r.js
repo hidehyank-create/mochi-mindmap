@@ -32,6 +32,13 @@
         const width=parseFloat(getComputedStyle(path).strokeWidth);
         if(Number.isFinite(width)&&width>5)path.style.strokeWidth=`${width-5}px`;
       }
+      // The old link-node-top stroke is an opaque hose-width redraw.  The
+      // hidden contour now supplies the dashed occlusion, so this redraw only
+      // creates the visible blue block seen over nodes.
+      if(kind==="link-node-top"){
+        path.remove();
+        continue;
+      }
       if(/(?:^|-)node-top$/.test(kind)||kind==="link-node-top"){
         const width=parseFloat(getComputedStyle(path).strokeWidth);
         if(Number.isFinite(width)&&width>1)path.style.strokeWidth=`${Math.max(1,width*.55)}px`;
