@@ -26,7 +26,7 @@
     const hidden=[...hiddenLayer.querySelectorAll("path.hidden-outline")];
     const samples=hidden.map(path=>{const len=path.getTotalLength();const out=[];for(let i=0;i<=10;i++){const p=path.getPointAtLength(len*i/10);out.push(p)}return out});
     const near=(p,pts)=>pts.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<=3.5);
-    for(const path of [...zTopLayer.querySelectorAll("path[data-z-boundary]")]){
+    for(const path of [...zTopLayer.querySelectorAll("path")]){
       const kind=path.getAttribute("data-z-boundary")||"";
       if(kind==="link-node-gap"){
         const width=parseFloat(getComputedStyle(path).strokeWidth);
@@ -36,7 +36,11 @@
         const width=parseFloat(getComputedStyle(path).strokeWidth);
         if(Number.isFinite(width)&&width>1)path.style.strokeWidth=`${Math.max(1,width*.55)}px`;
       }
-      if(!/(sep|upper-link-side|upper-link-root|node-over-link)$/.test(kind))continue;
+      // Only suppress dashed zTop separators which duplicate the red hidden
+      // contour. Solid blue redraws and blue outer outlines are intentional.
+      const dash=getComputedStyle(path).strokeDasharray;
+      if(!/(sep|upper-link-side|upper-link-root|node-over-link)$/.test(kind)&&
+         !(dash&&dash!=="none"&&dash!=="0px"))continue;
       const len=path.getTotalLength();if(len<8)continue;
       let hit=0,total=0;
       for(let i=1;i<10;i++){const p=path.getPointAtLength(len*i/10);total++;if(samples.some(pts=>near(p,pts)))hit++}
