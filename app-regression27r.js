@@ -1,0 +1,10 @@
+"use strict";
+(function(){
+  const R=window.__mochiFix27RTest||{},out=document.getElementById("regressionResults"),r=[];
+  const A=(x,m)=>{if(!x)throw new Error(m)},test=(n,f)=>{try{f();r.push({n,ok:1})}catch(e){r.push({n,ok:0,e:e?.message||String(e)})}};
+  function N(id,x,y,rr=70,z=1){return{id,x,y,r:rr,label:id,z,created:z}}
+  function reset(ns=[]){if(renderRAF){cancelAnimationFrame(renderRAF);renderRAF=0}cancelHold?.();gesture=null;selected=null;nodes.splice(0,nodes.length,...ns.map(x=>({...x})));links.splice(0);attachments.splice(0);crossPairs.clear();view.x=0;view.y=0;view.scale=1;applyView();f13ClearContactPreview?.();hiddenLayer?.replaceChildren?.()}
+  test("F27R-01 丸Cの下のAB外形はCだけがowner",()=>{reset([N("a",180,350,65,1),N("b",820,350,65,1),N("c",500,350,105,3),N("d",500,650,75,4)]);const ab={id:"ab",a:"a",b:"b",control:null,seq:1},cd={id:"cd",a:"c",b:"d",control:null,seq:2};links.push(ab,cd);A(typeof R.ownerAt==="function","owner APIなし");for(const p of[{x:450,y:319},{x:450,y:381},{x:550,y:319},{x:550,y:381}]){const o=R.ownerAt(ab,p);A(o?.kind==="node"&&o.id==="c",`C下のAB外形をC以外が所有: ${JSON.stringify(o)}`)}});
+  test("F27R-02 新規2の移動でC下AB破線の本数を増やさない",()=>{reset([N("a",180,350,65,1),N("b",820,350,65,1),N("c",500,350,105,3),N("d",500,650,75,4)]);const ab={id:"ab",a:"a",b:"b",control:null,seq:1},cd={id:"cd",a:"c",b:"d",control:null,seq:2};links.push(ab,cd);const count=()=>{f25RenderHidden();return hiddenLayer.querySelectorAll('[data-f27r-lower="ab"]').length};const baseline=count();for(const q of[[280,600],[700,600],[700,120],[300,120]]){const d=nodeById("d");d.x=q[0];d.y=q[1];A(count()===baseline,`新規2移動でAB破線path数が変化: ${baseline}->${count()}`)}});
+  const ok=r.every(x=>x.ok);document.body.dataset.regression27rStatus=ok?"PASS":"FAIL";const box=document.createElement("div");box.id="regression27r";box.innerHTML=`<h3>FIX27R ${ok?"PASS":"FAIL"} (${r.filter(x=>x.ok).length}/${r.length})</h3>`+r.map(x=>`<div class="${x.ok?'pass':'fail'}">${x.ok?'✓':'✗'} ${x.n}${x.ok?'':` — ${x.e}`}</div>`).join("");out?.prepend(box);
+})();
