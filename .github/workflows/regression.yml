@@ -34,6 +34,7 @@ jobs:
           grep -o 'FIX27 [^<]*' /tmp/mochi-regression-dom.html || true
           grep -o 'FIX27K [^<]*' /tmp/mochi-regression-dom.html || true
           grep -o 'FIX27L [^<]*' /tmp/mochi-regression-dom.html || true
+          grep -o 'FIX27M [^<]*' /tmp/mochi-regression-dom.html || true
           grep -o 'class="fail"[^<]*>[^<]*' /tmp/mochi-regression-dom.html || true
           grep 'data-regression25-status="PASS"' /tmp/mochi-regression-dom.html
           grep 'FIX25 PASS (12/12)' /tmp/mochi-regression-dom.html
@@ -47,3 +48,5 @@ jobs:
           grep 'FIX27K PASS (3/3)' /tmp/mochi-regression-dom.html
           grep 'data-regression27l-status="PASS"' /tmp/mochi-regression-dom.html
           grep 'FIX27L PASS (2/2)' /tmp/mochi-regression-dom.html
+          grep 'data-regression27m-status="PASS"' /tmp/mochi-regression-dom.html
+          grep 'FIX27M PASS (4/4)' /tmp/mochi-regression-dom.html
