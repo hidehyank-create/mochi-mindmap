@@ -1,9 +1,9 @@
 "use strict";
 (function installFix27R(){
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
-  if(window.__mochiFix27RInstalled&&window.__mochiFix27RBuild==="0917-FIX27AB")return;
+  if(window.__mochiFix27RInstalled&&window.__mochiFix27RBuild==="0917-FIX27AC")return;
   window.__mochiFix27RInstalled=true;
-  const F27R_BUILD="0917-FIX27AB",P=window.__mochiFix27PTest;
+  const F27R_BUILD="0917-FIX27AC",P=window.__mochiFix27PTest;
   window.__mochiFix27RBuild=F27R_BUILD;
   document.getElementById("f27tLayerColors")?.remove();
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));

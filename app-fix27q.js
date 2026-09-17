@@ -18,6 +18,6 @@
   renderMotionNow=function(){shadowLayer.style.display="none";hiddenLayer.style.display="";renderLinks(true);renderNodes();f25RenderBoundaries();f25RenderHidden();renderUI();f22PlaceStatus();f24PlaceGuide()};
   window.__mochiFix27QTest={compositeSideRuns};
   statusText=function(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD ${F27Q_BUILD}<br>${t}`;f22PlaceStatus()};renderAll();statusText("待機中");
-  if(!document.getElementById("f27rLoader")){const s=document.createElement("script");s.id="f27rLoader";s.src="app-fix27r.js?v=0917-fix27af";document.body.appendChild(s)}
+  if(!document.getElementById("f27rLoaderLatest")){const s=document.createElement("script");s.id="f27rLoaderLatest";s.src="app-fix27r.js?v=0917-fix27ag";document.body.appendChild(s)}
   if(document.getElementById("regressionResults")){const loadTest=()=>{if(document.getElementById("regression27q"))return;if(!document.getElementById("regression27m")){setTimeout(loadTest,25);return}const s=document.createElement("script");s.src="app-regression27q.js?v=0916-fix27q";document.body.appendChild(s)};loadTest()}
 })();
