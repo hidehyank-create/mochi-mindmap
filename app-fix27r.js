@@ -1,9 +1,9 @@
 "use strict";
 (function installFix27R(){
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
-  if(window.__mochiFix27RInstalled&&window.__mochiFix27RBuild==="0917-FIX27AA")return;
+  if(window.__mochiFix27RInstalled&&window.__mochiFix27RBuild==="0917-FIX27AB")return;
   window.__mochiFix27RInstalled=true;
-  const F27R_BUILD="0917-FIX27AA",P=window.__mochiFix27PTest;
+  const F27R_BUILD="0917-FIX27AB",P=window.__mochiFix27PTest;
   window.__mochiFix27RBuild=F27R_BUILD;
   document.getElementById("f27tLayerColors")?.remove();
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));
@@ -21,11 +21,10 @@
   }
   function hiddenAt(l,p){return externalLinkPoint(l,p)&&!!ownerAt(l,p)}
   function curvePoints(c,reverse=false,steps=70){const out=[];for(let i=0;i<=steps;i++)out.push(f23Cubic(c[0],c[1],c[2],c[3],reverse?1-i/steps:i/steps));return out}
-  function hosePoints(l,side,steps=320,narrow=false){const A=f21RootInfo(l,true),B=f21RootInfo(l,false);if(!A||!B)return[];const t0=Math.min(A.t,B.t),t1=Math.max(A.t,B.t),out=[],off=Math.max(2,linkWidth(l)/2+1-(narrow?4:0));for(let i=0;i<=steps;i++){const t=t0+(t1-t0)*i/steps,p=quadPoint(l,t),tg=quadTangent(l,t),u=unit(tg.x,tg.y);out.push({x:p.x-u.y*off*side,y:p.y+u.x*off*side})}return out}
-  function contourRuns(l,side){const ga=f23RootGeom(l,true),gb=f23RootGeom(l,false);if(!ga||!gb)return[];const ca=side===1?ga.top:ga.bottom,cb=side===-1?gb.top:gb.bottom,points=[...curvePoints(ca),...hosePoints(l,side,320,true),...curvePoints(cb,true)],out=[];let cur=[];for(const p of points){if(hiddenAt(l,p))cur.push(p);else if(cur.length){if(cur.length>1)out.push({d:f23Path(cur),narrow:true});cur=[]}}if(cur.length>1)out.push({d:f23Path(cur),narrow:true});return out}
+  function hosePoints(l,side,steps=320){const A=f21RootInfo(l,true),B=f21RootInfo(l,false);if(!A||!B)return[];const t0=Math.min(A.t,B.t),t1=Math.max(A.t,B.t),out=[],off=linkWidth(l)/2+1;for(let i=0;i<=steps;i++){const t=t0+(t1-t0)*i/steps,p=quadPoint(l,t),tg=quadTangent(l,t),u=unit(tg.x,tg.y);out.push({x:p.x-u.y*off*side,y:p.y+u.x*off*side})}return out}
+  function contourRuns(l,side){const ga=f23RootGeom(l,true),gb=f23RootGeom(l,false);if(!ga||!gb)return[];const ca=side===1?ga.top:ga.bottom,cb=side===-1?gb.top:gb.bottom,points=[...curvePoints(ca),...hosePoints(l,side),...curvePoints(cb,true)],out=[];let cur=[];for(const p of points){if(hiddenAt(l,p))cur.push(p);else if(cur.length){if(cur.length>1)out.push(f23Path(cur));cur=[]}}if(cur.length>1)out.push(f23Path(cur));return out}
   function append(d,attrs){
-    const width=attrs["data-f27r-narrow"]==="1"?1:2;
-    hiddenLayer.appendChild(sEl("path",{d,class:"hidden-outline","data-f27r":"1",...attrs,style:`stroke:#d12c5b;stroke-width:${width};stroke-dasharray:9 8;opacity:.9`}));
+    hiddenLayer.appendChild(sEl("path",{d,class:"hidden-outline","data-f27r":"1",...attrs,style:"stroke:#d12c5b;stroke-width:2;stroke-dasharray:9 8;opacity:.9"}));
   }
   function suppressDuplicateZTop(){
     const hidden=[...hiddenLayer.querySelectorAll("path.hidden-outline")];
@@ -33,6 +32,8 @@
     const near=(p,pts)=>pts.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<=3.5);
     const boundaryLayers=[zTopLayer,overlapLayer];
     for(const path of boundaryLayers.flatMap(layer=>[...layer.querySelectorAll("path")])){
+      const dash=getComputedStyle(path).strokeDasharray;
+      if(dash&&dash!=="none"&&dash!=="0px"){path.remove();continue}
       const kind=path.getAttribute("data-z-boundary")||"";
       // Node-over-link separators are the alternate blue contour.  The
       // hidden layer already owns this boundary, so keeping either copy
@@ -73,7 +74,7 @@
   f25RenderHidden=function(){
     hiddenLayer.replaceChildren();
     for(const n of orderedNodes())for(const d of P.nodeRuns(n))append(d,{"data-f27r-owner":`node:${n.id}`,"data-f27r-contour":"node","data-f27r-lower":n.id});
-    for(const l of orderedLinks())for(const side of[-1,1])for(const run of contourRuns(l,side))append(run.d,{"data-f27r-owner":`link-exterior:${l.id}:${side}`,"data-f27r-contour":"link-exterior","data-f27r-lower":l.id,"data-f27r-side":side,"data-f27r-narrow":run.narrow?"1":"0"});
+    for(const l of orderedLinks())for(const side of[-1,1])for(const d of contourRuns(l,side))append(d,{"data-f27r-owner":`link-exterior:${l.id}:${side}`,"data-f27r-contour":"link-exterior","data-f27r-lower":l.id,"data-f27r-side":side});
     suppressDuplicateZTop();
   };
   renderHidden=f25RenderHidden;
