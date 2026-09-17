@@ -1,9 +1,9 @@
 "use strict";
 (function installFix27R(){
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
-  if(window.__mochiFix27RInstalled&&window.__mochiFix27RBuild==="0917-FIX27AC")return;
+  if(window.__mochiFix27RInstalled&&window.__mochiFix27RBuild==="0917-FIX27AD")return;
   window.__mochiFix27RInstalled=true;
-  const F27R_BUILD="0917-FIX27AC",P=window.__mochiFix27PTest;
+  const F27R_BUILD="0917-FIX27AD",P=window.__mochiFix27PTest;
   window.__mochiFix27RBuild=F27R_BUILD;
   document.getElementById("f27tLayerColors")?.remove();
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));
@@ -32,8 +32,8 @@
     const near=(p,pts)=>pts.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<=3.5);
     const boundaryLayers=[zTopLayer,overlapLayer];
     for(const path of boundaryLayers.flatMap(layer=>[...layer.querySelectorAll("path")])){
-      const dash=getComputedStyle(path).strokeDasharray;
-      if(dash&&dash!=="none"&&dash!=="0px"){path.remove();continue}
+      const legacyDash=getComputedStyle(path).strokeDasharray;
+      if(legacyDash&&legacyDash!=="none"&&legacyDash!=="0px"){path.remove();continue}
       const kind=path.getAttribute("data-z-boundary")||"";
       // Node-over-link separators are the alternate blue contour.  The
       // hidden layer already owns this boundary, so keeping either copy
