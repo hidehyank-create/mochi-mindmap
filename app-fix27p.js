@@ -80,5 +80,5 @@
   window.__mochiFix27PTest={linkSideRuns,rootRuns,nodeRuns,linkHiddenAt};
   statusText=function(t){status.innerHTML=`餅マップ v0.9.4<br>BUILD ${F27P_BUILD}<br>${t}`;f22PlaceStatus()};
   renderAll();statusText("待機中");
-  if(!document.getElementById("f27qLoader")){const s=document.createElement("script");s.id="f27qLoader";s.src="app-fix27q.js?v=0917-fix27ab";document.body.appendChild(s)}
+  if(!document.getElementById("f27qLoader")){const s=document.createElement("script");s.id="f27qLoader";s.src="app-fix27q.js?v=0917-fix27ac";document.body.appendChild(s)}
 })();
