@@ -2,7 +2,7 @@
 (function installFix27R(){
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
   if(window.__mochiFix27RInstalled)return;window.__mochiFix27RInstalled=true;
-  const F27R_BUILD="0917-FIX27T",P=window.__mochiFix27PTest;
+  const F27R_BUILD="0917-FIX27U",P=window.__mochiFix27PTest;
   document.getElementById("f27tLayerColors")?.remove();
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));
   const orderedLinks=()=>f24LinkOrder();
@@ -26,8 +26,19 @@
     const hidden=[...hiddenLayer.querySelectorAll("path.hidden-outline")];
     const samples=hidden.map(path=>{const len=path.getTotalLength();const out=[];for(let i=0;i<=10;i++){const p=path.getPointAtLength(len*i/10);out.push(p)}return out});
     const near=(p,pts)=>pts.some(q=>Math.hypot(p.x-q.x,p.y-q.y)<=3.5);
-    for(const path of [...zTopLayer.querySelectorAll("path")]){
+    const boundaryLayers=[zTopLayer,overlapLayer];
+    for(const path of boundaryLayers.flatMap(layer=>[...layer.querySelectorAll("path")])){
       const kind=path.getAttribute("data-z-boundary")||"";
+      // Node-over-link separators are the alternate blue contour.  The
+      // hidden layer already owns this boundary, so keeping either copy
+      // produces the blue/red double line seen when stacking is reversed.
+      if(kind==="f25-node-link-sep"||kind==="f26-node-over-link"||kind==="f26-root-over-link"||
+         kind==="f27k-upper-link-side"||kind==="f27k-upper-link-root"||
+         kind==="f25-link-node-sep"||kind==="f25-root-node-sep"||
+         kind==="f25-small-root-node-top"||kind==="f25-small-root-node-sep"){
+        path.remove();
+        continue;
+      }
       if(kind==="link-node-gap"){
         const width=parseFloat(getComputedStyle(path).strokeWidth);
         if(Number.isFinite(width)&&width>5)path.style.strokeWidth=`${width-5}px`;
