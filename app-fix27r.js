@@ -2,7 +2,7 @@
 (function installFix27R(){
   if(!window.__mochiFix27QInstalled||!window.__mochiFix27PTest){setTimeout(installFix27R,25);return}
   if(window.__mochiFix27RInstalled)return;window.__mochiFix27RInstalled=true;
-  const F27R_BUILD="0917-FIX27V",P=window.__mochiFix27PTest;
+  const F27R_BUILD="0917-FIX27W",P=window.__mochiFix27PTest;
   document.getElementById("f27tLayerColors")?.remove();
   const orderedNodes=()=>[...nodes].sort((a,b)=>f24NodeZ(a)-f24NodeZ(b)||((a.created??0)-(b.created??0)));
   const orderedLinks=()=>f24LinkOrder();
@@ -21,7 +21,10 @@
   function curvePoints(c,reverse=false,steps=70){const out=[];for(let i=0;i<=steps;i++)out.push(f23Cubic(c[0],c[1],c[2],c[3],reverse?1-i/steps:i/steps));return out}
   function hosePoints(l,side,steps=320){const A=f21RootInfo(l,true),B=f21RootInfo(l,false);if(!A||!B)return[];const t0=Math.min(A.t,B.t),t1=Math.max(A.t,B.t),out=[],off=linkWidth(l)/2+1;for(let i=0;i<=steps;i++){const t=t0+(t1-t0)*i/steps,p=quadPoint(l,t),tg=quadTangent(l,t),u=unit(tg.x,tg.y);out.push({x:p.x-u.y*off*side,y:p.y+u.x*off*side})}return out}
   function contourRuns(l,side){const ga=f23RootGeom(l,true),gb=f23RootGeom(l,false);if(!ga||!gb)return[];const ca=side===1?ga.top:ga.bottom,cb=side===-1?gb.top:gb.bottom,points=[...curvePoints(ca),...hosePoints(l,side),...curvePoints(cb,true)],out=[];let cur=[];for(const p of points){if(hiddenAt(l,p))cur.push(p);else if(cur.length){if(cur.length>1)out.push(f23Path(cur));cur=[]}}if(cur.length>1)out.push(f23Path(cur));return out}
-  function append(d,attrs){hiddenLayer.appendChild(sEl("path",{d,class:"hidden-outline","data-f27r":"1",...attrs,style:"stroke:#d12c5b;stroke-width:2;stroke-dasharray:9 8;opacity:.9"}))}
+  function append(d,attrs){
+    hiddenLayer.appendChild(sEl("path",{d,class:"hidden-mask","data-f27r-mask":"1",fill:"none",stroke:"#f7f4ed","stroke-width":7,"stroke-linecap":"round","stroke-linejoin":"round"}));
+    hiddenLayer.appendChild(sEl("path",{d,class:"hidden-outline","data-f27r":"1",...attrs,style:"stroke:#d12c5b;stroke-width:2;stroke-dasharray:9 8;opacity:.9"}));
+  }
   function suppressDuplicateZTop(){
     const hidden=[...hiddenLayer.querySelectorAll("path.hidden-outline")];
     const samples=hidden.map(path=>{const len=path.getTotalLength();const out=[];for(let i=0;i<=10;i++){const p=path.getPointAtLength(len*i/10);out.push(p)}return out});
